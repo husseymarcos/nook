@@ -1,9 +1,15 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
   user: one
-  title: MyString
+  title: "New Tool for Project Management"
 
 two:
+  user: one
+  title: "Design Software Recommendations"
+
+three:
   user: two
-  title: MyString
+  title: "Private"
+
+four:
+  user: one
+  title: "New Conversation"

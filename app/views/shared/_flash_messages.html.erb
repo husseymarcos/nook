@@ -1,7 +1,7 @@
 <% if flash.any? %>
   <div class="fixed top-20 right-4 z-50 space-y-2">
     <% flash.each do |type, message| %>
-      <div class="px-4 py-3 rounded-2xl <%= type == 'notice' ? 'bg-[#cce5ff] text-[#004be2]' : 'bg-[#ffd4d4] text-[#ba1a1a]' %> shadow-lg animate-fade-in">
+      <div class="<%= type == 'alert' ? 'alert' : 'notice' %> px-4 py-3 rounded-2xl <%= type == 'notice' ? 'bg-[#cce5ff] text-[#004be2]' : 'bg-[#ffd4d4] text-[#ba1a1a]' %> shadow-lg animate-fade-in">
         <p class="font-medium text-sm"><%= message %></p>
       </div>
     <% end %>

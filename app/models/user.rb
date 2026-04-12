@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :user_stacks, dependent: :destroy
   has_many :tools, through: :user_stacks
 
+  validates :email_address, presence: true, uniqueness: true
+
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
   # Premium check
@@ -35,7 +37,7 @@ class User < ApplicationRecord
 
   def add_tool_to_stack(tool)
     return false if tools.count >= 20
-    return true if tools.include?(tool)
+    return false if tools.include?(tool)
 
     tools << tool
   end

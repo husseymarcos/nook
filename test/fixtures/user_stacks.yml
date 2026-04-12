@@ -1,9 +1,13 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
   user: one
-  tool: one
+  tool: notion
 
 two:
   user: two
-  tool: two
+  tool: streaks
+
+<% 20.times do |i| %>
+stack_limit_<%= i %>:
+  user: three
+  tool: limit_<%= i %>
+<% end %>

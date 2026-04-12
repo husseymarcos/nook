@@ -1,7 +1,7 @@
 require "test_helper"
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
-  setup { @user = User.take }
+  setup { @user = users(:one) }
 
   test "new" do
     get new_session_path
@@ -16,6 +16,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create with invalid credentials" do
+    sign_out
     post session_path, params: { email_address: @user.email_address, password: "wrong" }
 
     assert_redirected_to new_session_path
@@ -23,7 +24,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "destroy" do
-    sign_in_as(User.take)
+    sign_in_as(users(:one))
 
     delete session_path
 

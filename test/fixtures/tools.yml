@@ -1,15 +1,36 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+notion:
+  name: Notion
+  description: Notes, docs, databases
+  platform: Web/Mobile/Desktop
+  category: Productivity
+  is_default: true
 
-one:
-  name: MyString
-  description: MyString
-  platform: MyString
-  category: MyString
+figma:
+  name: Figma
+  description: Design, prototyping
+  platform: Web/Desktop
+  category: Design
+  is_default: true
+
+streaks:
+  name: Streaks
+  description: Minimalist habit tracker
+  platform: iOS
+  category: Health
+  is_default: true
+
+custom:
+  name: Custom Fixture Tool
+  description: Test
+  platform: Web
+  category: Other
   is_default: false
 
-two:
-  name: MyString
-  description: MyString
-  platform: MyString
-  category: MyString
+<% 20.times do |i| %>
+limit_<%= i %>:
+  name: Limit Tool <%= i %>
+  description: Test
+  platform: Web
+  category: Other
   is_default: false
+<% end %>

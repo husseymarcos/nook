@@ -17,9 +17,20 @@ class ConversationsController < ApplicationController
   end
 
   def create
-    @conversation = Current.user.conversations.build(conversation_params)
+    unless Current.user.can_search?
+      return render "conversations/upgrade_prompt"
+    end
+
+    content = params.dig(:conversation, :initial_message_content)
+    @conversation = Current.user.conversations.build(conversation_params.except(:initial_message_content))
+    @conversation.title = content&.truncate(50) || "New Conversation"
 
     if @conversation.save
+      if content.present?
+        @conversation.messages.create!(content: content, role: "user")
+        Current.user.increment_search_count!
+        GenerateAiResponseJob.perform_later(@conversation, Current.user)
+      end
       redirect_to @conversation
     else
       redirect_to conversations_path, alert: "Could not create conversation"
@@ -46,6 +57,6 @@ class ConversationsController < ApplicationController
   end
 
   def conversation_params
-    params.require(:conversation).permit(:title)
+    params.require(:conversation).permit(:title, :initial_message_content)
   end
 end

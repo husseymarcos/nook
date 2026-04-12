@@ -13,7 +13,3 @@ module SessionTestHelper
     cookies.delete("session_id")
   end
 end
-
-ActiveSupport.on_load(:action_dispatch_integration_test) do
-  include SessionTestHelper
-end
