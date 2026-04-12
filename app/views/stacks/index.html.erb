@@ -1,0 +1,89 @@
+<%# Stack Management Page %>
+<div class="min-h-screen pt-20 pb-24 md:pb-8">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <%# Header %>
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-2">
+        <h1 class="font-['Epilogue'] text-4xl font-bold text-[#191c1d] tracking-tight">
+          Your Stack
+        </h1>
+        <span class="px-3 py-1 rounded-full bg-[#cce5ff] text-[#004be2] text-sm font-semibold tracking-wide uppercase" style="letter-spacing: 0.05em;">
+          <%= Current.user.tools.count %>/20 Tools
+        </span>
+      </div>
+      <p class="text-[#5f6368]">Tools you're currently using. Nook uses this to recommend better integrations.</p>
+    </div>
+
+    <%# Current Stack %>
+    <% if @stack_tools.any? %>
+      <div class="grid gap-3 mb-10">
+        <% @stack_tools.each do |tool| %>
+          <div class="flex items-center justify-between p-5 rounded-3xl bg-[#ffffff] shadow-sm">
+            <div class="flex items-center gap-4">
+              <%# Tool Icon Placeholder with Glow %>
+              <div class="w-12 h-12 rounded-2xl bg-[#f0f1f1] flex items-center justify-center relative">
+                <div class="absolute inset-0 rounded-2xl bg-[#004be2]/20 blur-md"></div>
+                <span class="relative font-['Epilogue'] font-bold text-lg text-[#004be2]"><%= tool.name[0] %></span>
+              </div>
+              
+              <div>
+                <h3 class="font-['Epilogue'] font-semibold text-lg text-[#191c1d]"><%= tool.name %></h3>
+                <p class="text-sm text-[#5f6368]"><%= tool.description %></p>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+              <span class="px-3 py-1 rounded-full text-xs font-medium bg-[#f0f1f1] text-[#444748]">
+                <%= tool.platform %>
+              </span>
+              <%= button_to stack_path(tool), method: :delete, class: "p-2 rounded-full hover:bg-[#ffd4d4] text-[#5f6368] hover:text-[#ba1a1a] transition-colors" do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <%# Empty State %>
+      <div class="text-center py-12 px-6 rounded-3xl bg-[#f0f1f1] mb-10">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#e7e8e8] flex items-center justify-center">
+          <svg class="w-8 h-8 text-[#5f6368]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+          </svg>
+        </div>
+        <h3 class="font-['Epilogue'] font-semibold text-xl text-[#191c1d] mb-2">Your stack is empty</h3>
+        <p class="text-[#5f6368]">Add tools you use so Nook can recommend better integrations</p>
+      </div>
+    <% end %>
+
+    <%# Add Tools Section %>
+    <div class="bg-[#f0f1f1] rounded-3xl p-6">
+      <h2 class="font-['Epilogue'] font-bold text-xl text-[#191c1d] mb-4">Add Tools</h2>
+      
+      <%# Default Tools Grid %>
+      <% if @default_tools.any? %>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+          <% @default_tools.each do |tool| %>
+            <%= button_to stacks_path(tool_id: tool.id), class: "text-left p-4 rounded-2xl bg-[#ffffff] hover:bg-[#e7e8e8] transition-colors group" do %>
+              <div class="font-['Epilogue'] font-semibold text-[#191c1d] group-hover:text-[#004be2] transition-colors mb-1">
+                <%= tool.name %>
+              </div>
+              <p class="text-xs text-[#5f6368] line-clamp-2"><%= tool.description %></p>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%# Custom Tool Input %>
+      <%= form_with url: stacks_path, class: "flex gap-3" do |f| %>
+        <%= f.text_field :tool_name, 
+            placeholder: "Add custom tool...",
+            class: "flex-1 px-4 py-3 rounded-full bg-[#ffffff] border border-[#e7e8e8] focus:border-[#004be2] focus:ring-2 focus:ring-[#004be2]/20 outline-none transition-all",
+            required: true %>
+        <%= f.submit "Add", class: "px-6 py-3 rounded-full bg-[#004be2] text-white font-semibold hover:bg-[#003bb8] transition-colors" %>
+      <% end %>
+    </div>
+  </div>
+</div>

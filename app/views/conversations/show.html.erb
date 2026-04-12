@@ -1,0 +1,95 @@
+<%# Chat Interface %>
+<%= turbo_stream_from @conversation %>
+
+<div class="h-screen flex flex-col pt-16 pb-20 md:pb-0">
+  <%# Chat Header - Editable Title %>
+  <div class="bg-[#f6f6f6]/80 backdrop-blur-xl border-b border-[#e7e8e8] px-4 py-4">
+    <div class="max-w-3xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex-1 min-w-0">
+        <h1 
+          class="font-['Epilogue'] text-xl font-semibold text-[#191c1d] truncate cursor-pointer hover:text-[#004be2] transition-colors"
+          data-controller="editable-title"
+          data-editable-title-url-value="<%= update_title_conversation_path(@conversation) %>"
+          data-action="click->editable-title#edit"
+        >
+          <%= @conversation.title %>
+        </h1>
+        <p class="text-xs text-[#5f6368]"><%= @conversation.messages.count %> messages</p>
+      </div>
+      
+      <%= button_to @conversation, method: :delete, class: "p-2 rounded-full hover:bg-[#ffd4d4] text-[#5f6368] hover:text-[#ba1a1a] transition-colors", data: { turbo_confirm: "Delete this conversation?" } do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+        </svg>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Messages Area %>
+  <div class="flex-1 overflow-y-auto px-4 py-6" id="messages">
+    <div class="max-w-3xl mx-auto space-y-6">
+      <% if @messages.any? %>
+        <% @messages.each do |message| %>
+          <%= render "messages/message", message: message %>
+        <% end %>
+      <% else %>
+        <%# Welcome State %>
+        <div class="text-center py-12">
+          <div class="w-20 h-20 mx-auto mb-6 rounded-3xl bg-gradient-to-br from-[#004be2] to-[#809bff] flex items-center justify-center shadow-lg shadow-[#004be2]/20">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </div>
+          <h2 class="font-['Epilogue'] text-2xl font-bold text-[#191c1d] mb-3">What are you looking for?</h2>
+          <p class="text-[#5f6368] max-w-md mx-auto mb-8">Describe your problem or what kind of app you need. I'll ask a few questions and recommend the best tools.</p>
+          
+          <%# Quick Prompts %>
+          <div class="flex flex-wrap justify-center gap-2">
+            <% ["I need a task manager", "Photo editing app", "Better note-taking tool", "Team collaboration"].each do |prompt| %>
+              <%= button_to messages_path(conversation_id: @conversation.id), params: { message: { content: prompt } }, class: "px-4 py-2 rounded-full bg-[#f0f1f1] hover:bg-[#e7e8e8] text-[#444748] text-sm font-medium transition-colors" do %>
+                <%= prompt %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Typing Indicator (hidden by default, shown via Turbo) %>
+      <div id="typing-indicator" class="hidden">
+        <%= render "messages/typing_indicator" %>
+      </div>
+    </div>
+  </div>
+
+  <%# Input Area %>
+  <div class="bg-[#f6f6f6] border-t border-[#e7e8e8] px-4 py-4">
+    <div class="max-w-3xl mx-auto">
+      <%= form_with model: [@conversation, @message], class: "relative", id: dom_id(@conversation, :message_form) do |f| %>
+        <div class="relative flex items-end gap-2 bg-[#ffffff] rounded-full border border-[#e7e8e8] px-4 py-3 shadow-sm focus-within:ring-2 focus-within:ring-[#004be2]/20 focus-within:border-[#004be2] transition-all">
+          <%= f.text_area :content, 
+              rows: 1,
+              class: "flex-1 bg-transparent border-0 resize-none focus:ring-0 text-[#191c1d] placeholder-[#5f6368] max-h-32",
+              placeholder: "Describe what you need...",
+              data: { 
+                controller: "textarea-autogrow",
+                action: "keydown->textarea-autogrow#submitOnEnter"
+              } %>
+          
+          <%= f.button type: :submit, class: "p-2 rounded-full bg-[#004be2] text-white hover:bg-[#003bb8] transition-colors flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed" do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+            </svg>
+          <% end %>
+        </div>
+      <% end %>
+      
+      <%# Rate Limit Info %>
+      <% unless Current.user.premium? %>
+        <p class="text-center text-xs text-[#5f6368] mt-2">
+          <%= Current.user.searches_this_month %>/10 free searches this month
+          <%= link_to "Upgrade", billing_index_path, class: "text-[#004be2] hover:underline ml-1" %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+</div>
