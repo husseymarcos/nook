@@ -9,7 +9,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create with valid credentials" do
-    post session_path, params: { email_address: @user.email_address, password: "password" }
+    post session_path, params: { email: @user.email, password: "password" }
 
     assert_redirected_to root_path
     assert cookies[:session_id]
@@ -17,7 +17,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   test "create with invalid credentials" do
     sign_out
-    post session_path, params: { email_address: @user.email_address, password: "wrong" }
+    post session_path, params: { email: @user.email, password: "wrong" }
 
     assert_redirected_to new_session_path
     assert_nil cookies[:session_id]

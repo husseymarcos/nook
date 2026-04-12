@@ -23,21 +23,21 @@
     <div class="bg-[#ffffff] rounded-3xl p-8 shadow-sm">
       <%= form_with url: session_path, class: "space-y-6" do |form| %>
         <div>
-          <%= form.label :email_address, "Email", class: "block text-sm font-semibold text-[#191c1d] mb-2" %>
-          <%= form.email_field :email_address, 
-              required: true, 
-              autofocus: true, 
-              autocomplete: "username", 
+          <%= form.label :email, "Email", class: "block text-sm font-semibold text-[#191c1d] mb-2" %>
+          <%= form.email_field :email,
+              required: true,
+              autofocus: true,
+              autocomplete: "username",
               placeholder: "you@example.com",
-              value: params[:email_address],
+              value: params[:email],
               class: "w-full px-4 py-3 rounded-full bg-[#f6f6f6] border border-[#e7e8e8] focus:border-[#004be2] focus:ring-2 focus:ring-[#004be2]/20 outline-none transition-all" %>
         </div>
 
         <div>
           <%= form.label :password, "Password", class: "block text-sm font-semibold text-[#191c1d] mb-2" %>
-          <%= form.password_field :password, 
-              required: true, 
-              autocomplete: "current-password", 
+          <%= form.password_field :password,
+              required: true,
+              autocomplete: "current-password",
               placeholder: "••••••••",
               maxlength: 72,
               class: "w-full px-4 py-3 rounded-full bg-[#f6f6f6] border border-[#e7e8e8] focus:border-[#004be2] focus:ring-2 focus:ring-[#004be2]/20 outline-none transition-all" %>
@@ -53,7 +53,7 @@
 
     <%# Sign Up CTA %>
     <p class="text-center mt-6 text-[#5f6368] text-sm">
-      Don't have an account? 
+      Don't have an account?
       <%= link_to "Sign up", new_user_path, class: "text-[#004be2] hover:underline font-semibold" %>
     </p>
   </div>

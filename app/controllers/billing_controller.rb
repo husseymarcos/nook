@@ -6,29 +6,18 @@ class BillingController < ApplicationController
   end
 
   def checkout
-    session = Stripe::Checkout::Session.create(
-      customer_email: Current.user.email_address,
-      line_items: [ {
-        price: stripe_price_id,
-        quantity: 1
-      } ],
-      mode: "subscription",
-      success_url: billing_success_url + "?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: billing_cancel_url
+    processor = Current.user.set_payment_processor(:lemon_squeezy)
+    checkout_session = processor.checkout(
+      variant_id: price_id,
+      product_options: {
+        redirect_url: billing_success_url
+      }
     )
 
-    redirect_to session.url, allow_other_host: true
+    redirect_to checkout_session.url, allow_other_host: true
   end
 
   def success
-    session = Stripe::Checkout::Session.retrieve(params[:session_id])
-    subscription = Stripe::Subscription.retrieve(session.subscription)
-
-    # Update user's premium status
-    Current.user.update!(
-      premium_until: Time.at(subscription.current_period_end)
-    )
-
     redirect_to root_path, notice: "Welcome to Nook Premium!"
   end
 
@@ -38,13 +27,12 @@ class BillingController < ApplicationController
 
   private
 
-  def stripe_price_id
-    # You would set these in your Stripe dashboard
+  def price_id
     case params[:plan]
     when "annual"
-      ENV["STRIPE_ANNUAL_PRICE_ID"]
+      ENV["ANNUAL_PRICE_ID"]
     else
-      ENV["STRIPE_MONTHLY_PRICE_ID"]
+      ENV["MONTHLY_PRICE_ID"]
     end
   end
 end

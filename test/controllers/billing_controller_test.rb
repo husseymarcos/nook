@@ -14,33 +14,28 @@ class BillingControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "redirects checkout to stripe" do
-    # Mock Stripe session creation
-    mock_session = OpenStruct.new(url: "https://checkout.stripe.com/test")
-    Stripe::Checkout::Session.expects(:create).returns(mock_session)
+  test "redirects checkout to payment processor" do
+    mock_customer_list = OpenStruct.new(data: [])
+    mock_customer = OpenStruct.new(id: "cust_123")
+    mock_checkout = OpenStruct.new(url: "https://checkout.lemonsqueezy.com/test")
+
+    ::LemonSqueezy::Customer.expects(:list).returns(mock_customer_list)
+    ::LemonSqueezy::Customer.expects(:create).returns(mock_customer)
+    ::LemonSqueezy::Checkout.expects(:create).returns(mock_checkout)
+
+    original_store_id = ENV["LEMONSQUEEZY_STORE_ID"]
+    ENV["LEMONSQUEEZY_STORE_ID"] = "store_123"
 
     post checkout_url, params: { plan: "monthly" }
-    assert_redirected_to "https://checkout.stripe.com/test"
+    assert_redirected_to "https://checkout.lemonsqueezy.com/test"
+  ensure
+    ENV["LEMONSQUEEZY_STORE_ID"] = original_store_id
   end
 
   test "handles successful payment" do
-    user = Current.user
-
-    # Mock Stripe calls
-    mock_session = OpenStruct.new(
-      subscription: "sub_123",
-      customer_email: user.email_address
-    )
-    mock_subscription = OpenStruct.new(
-      current_period_end: 1.month.from_now.to_i
-    )
-
-    Stripe::Checkout::Session.expects(:retrieve).returns(mock_session)
-    Stripe::Subscription.expects(:retrieve).returns(mock_subscription)
-
-    get billing_success_url, params: { session_id: "cs_test_123" }
+    get billing_success_url
     assert_redirected_to root_path
-    assert user.reload.premium?
+    assert_equal "Welcome to Nook Premium!", flash[:notice]
   end
 
   test "handles cancelled checkout" do

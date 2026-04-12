@@ -22,11 +22,11 @@
     <div class="bg-[#ffffff] rounded-3xl p-8 shadow-sm">
       <%= form_with model: @user, class: "space-y-6" do |form| %>
         <div>
-          <%= form.label :email_address, "Email", class: "block text-sm font-semibold text-[#191c1d] mb-2" %>
-          <%= form.email_field :email_address, 
-              required: true, 
-              autofocus: true, 
-              autocomplete: "email", 
+          <%= form.label :email, "Email", class: "block text-sm font-semibold text-[#191c1d] mb-2" %>
+          <%= form.email_field :email,
+              required: true,
+              autofocus: true,
+              autocomplete: "email",
               placeholder: "you@example.com",
               class: "w-full px-4 py-3 rounded-full bg-[#f6f6f6] border border-[#e7e8e8] focus:border-[#004be2] focus:ring-2 focus:ring-[#004be2]/20 outline-none transition-all" %>
         </div>

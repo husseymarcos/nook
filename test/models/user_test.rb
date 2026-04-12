@@ -3,7 +3,7 @@ require "test_helper"
 class UserTest < ActiveSupport::TestCase
   test "creates account with email and password" do
     user = User.new(
-      email_address: "test@example.com",
+      email: "test@example.com",
       password: "password123",
       password_confirmation: "password123"
     )
@@ -13,26 +13,26 @@ class UserTest < ActiveSupport::TestCase
   test "requires email" do
     user = User.new(password: "password123")
     assert_not user.valid?
-    assert_includes user.errors[:email_address], "can't be blank"
+    assert_includes user.errors[:email], "can't be blank"
   end
 
   test "requires unique email" do
     user = User.new(
-      email_address: users(:one).email_address,
+      email: users(:one).email,
       password: "password123",
       password_confirmation: "password123"
     )
     assert_not user.valid?
-    assert_includes user.errors[:email_address], "has already been taken"
+    assert_includes user.errors[:email], "has already been taken"
   end
 
   test "normalizes email to lowercase" do
     user = User.create!(
-      email_address: "UPPER@EXAMPLE.COM",
+      email: "UPPER@EXAMPLE.COM",
       password: "password123",
       password_confirmation: "password123"
     )
-    assert_equal "upper@example.com", user.email_address
+    assert_equal "upper@example.com", user.email
   end
 
   test "premium users can search unlimited times" do

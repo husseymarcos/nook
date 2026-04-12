@@ -1,6 +1,6 @@
 # Nook
 
-Rails app for chatting with an AI assistant that recommends apps and tools. Users sign up, start conversations, and get answers powered by **Google Gemini**. They can also curate a personal **stack** of tools (up to a per-user limit) and optionally **upgrade** via Stripe when they hit free-tier usage limits.
+Rails app for chatting with an AI assistant that recommends apps and tools. Users sign up, start conversations, and get answers powered by **Google Gemini**. They can also curate a personal **stack** of tools (up to a per-user limit) and optionally **upgrade** when they hit free-tier usage limits.
 
 ## The problem
 
@@ -27,7 +27,7 @@ Nook is built around a **conversation-first** flow and a **personal stack**, so 
 - **Rails** 8.1 — Hotwire (Turbo, Stimulus), Importmap, Propshaft
 - **SQLite** — primary DB under `storage/` (plus Solid Cache / Queue / Cable DBs in production)
 - **Background jobs** — `GenerateAiResponseJob` calls Gemini; uses Solid Queue
-- **Payments** — Stripe Checkout for subscription upgrades
+- **Payments** — LemonSqueezy via [Pay](https://github.com/pay-rails/pay) gem for subscription upgrades
 
 ## Features
 
@@ -48,12 +48,23 @@ bin/rails db:prepare
 | Variable | Purpose |
 |----------|---------|
 | `GEMINI_API_KEY` | Required for AI responses ([Google AI Studio](https://aistudio.google.com/apikey)) |
-| `STRIPE_MONTHLY_PRICE_ID` | Stripe Price ID for monthly checkout (`billing#checkout`) |
-| `STRIPE_ANNUAL_PRICE_ID` | Stripe Price ID for annual checkout |
+| `LEMONSQUEEZY_API_KEY` | LemonSqueezy API key ([Settings → API](https://app.lemonsqueezy.com/settings/api)) |
+| `LEMONSQUEEZY_STORE_ID` | Your LemonSqueezy store ID |
+| `MONTHLY_PRICE_ID` | LemonSqueezy Variant ID for monthly plan |
+| `ANNUAL_PRICE_ID` | LemonSqueezy Variant ID for annual plan |
 
-Configure the Stripe **secret key** the way the [stripe-ruby](https://github.com/stripe/stripe-ruby) gem expects (for example an initializer that sets `Stripe.api_key` from `ENV`).
+Configure the **secret key** via the `LEMONSQUEEZY_API_KEY` environment variable. The Pay initializer (`config/initializers/pay.rb`) enables the LemonSqueezy processor.
 
 Copy or export values in development (e.g. `.env` with your preferred loader, or shell exports). Without `GEMINI_API_KEY`, AI generation will error or return a fallback message from `GeminiService`.
+
+### Webhooks (production)
+
+LemonSqueezy sends webhooks for subscription events. Configure your webhook endpoint in the LemonSqueezy dashboard:
+
+- **URL**: `https://yourdomain.com/pay/webhooks/lemon_squeezy`
+- **Events**: `subscription_created`, `subscription_updated`, `subscription_cancelled`, `subscription_payment_success`, `subscription_payment_failed`, `subscription_payment_recovered`, `order_created`
+
+The Pay gem handles these automatically to keep subscription status in sync.
 
 ### Run the app
 

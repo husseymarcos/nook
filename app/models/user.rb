@@ -1,17 +1,17 @@
 class User < ApplicationRecord
   has_secure_password
+  pay_customer
   has_many :sessions, dependent: :destroy
   has_many :conversations, dependent: :destroy
   has_many :user_stacks, dependent: :destroy
   has_many :tools, through: :user_stacks
 
-  validates :email_address, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true
 
-  normalizes :email_address, with: ->(e) { e.strip.downcase }
+  normalizes :email, with: ->(e) { e.strip.downcase }
 
-  # Premium check
   def premium?
-    premium_until.present? && premium_until > Time.current
+    pay_subscriptions.active.any? || (premium_until.present? && premium_until > Time.current)
   end
 
   # Rate limiting
