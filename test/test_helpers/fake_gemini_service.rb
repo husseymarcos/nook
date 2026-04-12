@@ -16,12 +16,12 @@ class GeminiService
 
   def generate_response(conversation, user)
     # Capture context for verification
-    self.class.captured_prompts << { 
-      conversation: conversation, 
+    self.class.captured_prompts << {
+      conversation: conversation,
       user: user,
       context: { stack_list: user.stack_names.join(", ") }
     }
-    
+
     self.class.responses.shift || "What is your primary goal?"
   end
 end
