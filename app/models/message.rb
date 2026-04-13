@@ -5,7 +5,7 @@ class Message < ApplicationRecord
   broadcasts_to ->(message) { "chat_#{message.chat_id}" }, inserts_by: :append
 
   validates :role, inclusion: { in: %w[user assistant system tool] }
-  validates :content, presence: true, unless: -> { role == "tool" }
+  validates :content, presence: true, unless: -> { role == "tool" || role == "assistant" }
 
   # Check if this message is a user message
   def user?
