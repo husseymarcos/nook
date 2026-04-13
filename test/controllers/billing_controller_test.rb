@@ -23,13 +23,8 @@ class BillingControllerTest < ActionDispatch::IntegrationTest
     ::LemonSqueezy::Customer.expects(:create).returns(mock_customer)
     ::LemonSqueezy::Checkout.expects(:create).returns(mock_checkout)
 
-    original_store_id = ENV["LEMONSQUEEZY_STORE_ID"]
-    ENV["LEMONSQUEEZY_STORE_ID"] = "store_123"
-
     post checkout_url, params: { plan: "monthly" }
     assert_redirected_to "https://checkout.lemonsqueezy.com/test"
-  ensure
-    ENV["LEMONSQUEEZY_STORE_ID"] = original_store_id
   end
 
   test "handles successful payment" do

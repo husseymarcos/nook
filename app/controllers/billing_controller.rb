@@ -28,11 +28,6 @@ class BillingController < ApplicationController
   private
 
   def price_id
-    case params[:plan]
-    when "annual"
-      ENV["ANNUAL_PRICE_ID"]
-    else
-      ENV["MONTHLY_PRICE_ID"]
-    end
+    ENV["MONTHLY_PRICE_ID"]
   end
 end

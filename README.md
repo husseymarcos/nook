@@ -49,9 +49,7 @@ bin/rails db:prepare
 |----------|---------|
 | `GEMINI_API_KEY` | Required for AI responses ([Google AI Studio](https://aistudio.google.com/apikey)) |
 | `LEMONSQUEEZY_API_KEY` | LemonSqueezy API key ([Settings → API](https://app.lemonsqueezy.com/settings/api)) |
-| `LEMONSQUEEZY_STORE_ID` | Your LemonSqueezy store ID |
 | `MONTHLY_PRICE_ID` | LemonSqueezy Variant ID for monthly plan |
-| `ANNUAL_PRICE_ID` | LemonSqueezy Variant ID for annual plan |
 
 Configure the **secret key** via the `LEMONSQUEEZY_API_KEY` environment variable. The Pay initializer (`config/initializers/pay.rb`) enables the LemonSqueezy processor.
 

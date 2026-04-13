@@ -11,8 +11,8 @@
       </p>
     </div>
 
-    <%# Pricing Cards %>
-    <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+    <%# Pricing Card %>
+    <div class="max-w-md mx-auto">
       <%# Monthly Plan %>
       <div class="p-8 rounded-3xl bg-[#f0f1f1]">
         <h3 class="font-['Epilogue'] font-bold text-xl text-[#191c1d] mb-2">Monthly</h3>
@@ -41,52 +41,7 @@
           </li>
         </ul>
         <%= button_to checkout_path(plan: "monthly"), class: "w-full py-4 rounded-full bg-[#004be2] text-white font-semibold hover:bg-[#003bb8] transition-colors" do %>
-          Choose Monthly
-        <% end %>
-      </div>
-
-      <%# Annual Plan - Featured %>
-      <div class="p-8 rounded-3xl bg-gradient-to-br from-[#004be2] to-[#809bff] text-white relative overflow-hidden">
-        <%# Badge %>
-        <div class="absolute top-4 right-4 px-3 py-1 rounded-full bg-white/20 text-sm font-semibold">
-          Best Value
-        </div>
-        
-        <h3 class="font-['Epilogue'] font-bold text-xl mb-2">Annual</h3>
-        <div class="flex items-baseline gap-1 mb-4">
-          <span class="font-['Epilogue'] font-bold text-5xl">$48</span>
-          <span class="text-white/80">/year</span>
-        </div>
-        <p class="text-white/80 text-sm mb-4">Save $12 (20% off)</p>
-        
-        <ul class="space-y-3 mb-8">
-          <li class="flex items-center gap-3">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            Unlimited searches
-          </li>
-          <li class="flex items-center gap-3">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            Full conversation history
-          </li>
-          <li class="flex items-center gap-3">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            Unlimited stack size
-          </li>
-          <li class="flex items-center gap-3">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            Priority support
-          </li>
-        </ul>
-        <%= button_to checkout_path(plan: "annual"), class: "w-full py-4 rounded-full bg-white text-[#004be2] font-semibold hover:bg-white/90 transition-colors" do %>
-          Choose Annual
+          Subscribe
         <% end %>
       </div>
     </div>
