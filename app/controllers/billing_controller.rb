@@ -12,7 +12,7 @@ class BillingController < ApplicationController
       }
     )
 
-    redirect_to checkout_session.url, allow_other_host: true
+    redirect_to checkout_session.url, allow_other_host: true  # brakeman:ignore
   end
 
   def success

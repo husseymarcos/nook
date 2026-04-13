@@ -46,7 +46,7 @@
           <%# Quick Prompts %>
           <div class="quick-prompts">
             <% ["I need a task manager", "Photo editing app", "Better note-taking tool", "Team collaboration"].each do |prompt| %>
-              <%= button_to messages_path(conversation_id: @conversation.id), params: { message: { content: prompt } } do %>
+              <%= button_to conversation_messages_path(@conversation), params: { message: { content: prompt } } do %>
                 <%= prompt %>
               <% end %>
             <% end %>
