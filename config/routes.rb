@@ -13,7 +13,9 @@ Rails.application.routes.draw do
   end
 
   # Stack management
-  resources :stacks, only: [ :index, :create, :destroy ]
+  resources :stacks do
+    resources :stack_tools, only: [ :create, :destroy ], as: :tools
+  end
 
   # Billing/Upgrade
   resources :billing, only: [ :index ]

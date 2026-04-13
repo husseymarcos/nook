@@ -3,42 +3,34 @@
   <div class="content-wrapper">
     <%# Header %>
     <div class="stacks-header">
-      <h1 class="stacks-header__title">Your Stack</h1>
-      <span class="badge badge--primary stacks-header__count">
-        <%= Current.user.tools.count %>/20 Tools
-      </span>
+      <h1 class="stacks-header__title">Your Stacks</h1>
     </div>
-    <p class="stacks-description">Tools you're currently using. Nook uses this to recommend better integrations.</p>
+    <p class="stacks-description">Organize your tools into different stacks for work, school, personal, and more.</p>
 
-    <%# Current Stack %>
-    <% if @stack_tools.any? %>
-      <div class="stack-tools">
-        <% @stack_tools.each do |tool| %>
-          <div class="stack-tool">
-            <div class="stack-tool__info">
-              <%# Tool Icon Placeholder with Glow %>
-              <div class="stack-tool__icon">
-                <div class="stack-tool__icon-glow"></div>
-                <span class="stack-tool__icon-text"><%= tool.name[0] %></span>
-              </div>
+    <%# Create New Stack %>
+    <%= form_with model: Stack.new, class: "create-stack-form" do |f| %>
+      <%= f.text_field :name, placeholder: "New stack name (e.g., Work, School)...", class: "form-input", required: true %>
+      <%= f.submit "Create Stack", class: "btn btn--primary" %>
+    <% end %>
 
-              <div class="stack-tool__details">
-                <h3 class="stack-tool__name"><%= tool.name %></h3>
-                <p class="stack-tool__description"><%= tool.description %></p>
-              </div>
+    <%# Stacks List %>
+    <% if @stacks.any? %>
+      <div class="stacks-list">
+        <% @stacks.each do |stack| %>
+          <%= link_to stack_path(stack), class: "stack-card" do %>
+            <div class="stack-card__header">
+              <h3 class="stack-card__name"><%= stack.name %></h3>
+              <span class="stack-card__count"><%= stack.tools.count %> tools</span>
             </div>
-
-            <div class="stack-tool__actions">
-              <span class="stack-tool__platform">
-                <%= tool.platform %>
-              </span>
-              <%= button_to stack_path(tool), method: :delete, class: "stack-tool__remove" do %>
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                </svg>
+            <div class="stack-card__tools">
+              <% if stack.tools.any? %>
+                <%= stack.tool_names.first(3).join(", ") %>
+                <%= "+#{stack.tools.count - 3} more" if stack.tools.count > 3 %>
+              <% else %>
+                <span class="stack-card__empty">No tools yet</span>
               <% end %>
             </div>
-          </div>
+          <% end %>
         <% end %>
       </div>
     <% else %>
@@ -49,35 +41,9 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
           </svg>
         </div>
-        <h3 class="empty-state__title">Your stack is empty</h3>
-        <p class="empty-state__text">Add tools you use so Nook can recommend better integrations</p>
+        <h3 class="empty-state__title">No stacks yet</h3>
+        <p class="empty-state__text">Create your first stack to organize your tools</p>
       </div>
     <% end %>
-
-    <%# Add Tools Section %>
-    <div class="add-tools-section">
-      <h2 class="add-tools-section__title">Add Tools</h2>
-
-      <%# Default Tools Grid %>
-      <% if @default_tools.any? %>
-        <div class="default-tools">
-          <% @default_tools.each do |tool| %>
-            <%= button_to stacks_path(tool_id: tool.id), class: "default-tool" do %>
-              <div class="default-tool__name"><%= tool.name %></div>
-              <p class="default-tool__description"><%= tool.description %></p>
-            <% end %>
-          <% end %>
-        </div>
-      <% end %>
-
-      <%# Custom Tool Input %>
-      <%= form_with url: stacks_path, class: "custom-tool-form" do |f| %>
-        <%= f.text_field :tool_name,
-            placeholder: "Add custom tool...",
-            class: "form-input",
-            required: true %>
-        <%= f.submit "Add", class: "btn btn--primary" %>
-      <% end %>
-    </div>
   </div>
 </div>

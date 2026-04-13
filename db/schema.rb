@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_12_155648) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_13_014955) do
   create_table "conversations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "title"
@@ -133,6 +133,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_12_155648) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "stack_tools", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "stack_id", null: false
+    t.integer "tool_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["stack_id", "tool_id"], name: "index_stack_tools_on_stack_id_and_tool_id", unique: true
+    t.index ["stack_id"], name: "index_stack_tools_on_stack_id"
+    t.index ["tool_id"], name: "index_stack_tools_on_tool_id"
+  end
+
+  create_table "stacks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_stacks_on_user_id"
+  end
+
   create_table "tools", force: :cascade do |t|
     t.string "category"
     t.datetime "created_at", null: false
@@ -141,15 +159,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_12_155648) do
     t.string "name"
     t.string "platform"
     t.datetime "updated_at", null: false
-  end
-
-  create_table "user_stacks", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "tool_id", null: false
-    t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
-    t.index ["tool_id"], name: "index_user_stacks_on_tool_id"
-    t.index ["user_id"], name: "index_user_stacks_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -170,6 +179,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_12_155648) do
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
   add_foreign_key "pay_subscriptions", "pay_customers", column: "customer_id"
   add_foreign_key "sessions", "users"
-  add_foreign_key "user_stacks", "tools"
-  add_foreign_key "user_stacks", "users"
+  add_foreign_key "stack_tools", "stacks"
+  add_foreign_key "stack_tools", "tools"
+  add_foreign_key "stacks", "users"
 end

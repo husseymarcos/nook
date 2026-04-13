@@ -1,49 +1,28 @@
 require "test_helper"
 
 class StacksControllerTest < ActionDispatch::IntegrationTest
-  test "lists user's stack" do
+  test "lists user's stacks" do
     get stacks_url
     assert_response :success
   end
 
-  test "adds default tool to stack" do
-    tool = tools(:streaks)
-
-    assert_difference "UserStack.count", 1 do
-      post stacks_url, params: { tool_id: tool.id }
+  test "creates new stack" do
+    assert_difference "Stack.count", 1 do
+      post stacks_url, params: { stack: { name: "Work Tools" } }
     end
-    assert_redirected_to stacks_path
+    assert_redirected_to stack_path(Stack.last)
   end
 
-  test "adds custom tool to stack" do
-    assert_difference %w[Tool.count UserStack.count], 1 do
-      post stacks_url, params: { tool_name: "My Custom Tool" }
-    end
-    assert_redirected_to stacks_path
+  test "shows stack" do
+    stack = stacks(:one)
+    get stack_url(stack)
+    assert_response :success
   end
 
-  test "prevents adding duplicate tools" do
-    tool = tools(:notion)
-    post stacks_url, params: { tool_id: tool.id }
-
-    assert_no_difference "UserStack.count" do
-      post stacks_url, params: { tool_id: tool.id }
-    end
-  end
-
-  test "prevents exceeding stack limit" do
-    sign_in_as(users(:three))
-
-    assert_no_difference "UserStack.count" do
-      post stacks_url, params: { tool_id: tools(:streaks).id }
-    end
-  end
-
-  test "removes tool from stack" do
-    sign_in_as(users(:two))
-
-    assert_difference "UserStack.count", -1 do
-      delete stack_url(tools(:streaks))
+  test "deletes stack" do
+    stack = stacks(:one)
+    assert_difference "Stack.count", -1 do
+      delete stack_url(stack)
     end
     assert_redirected_to stacks_path
   end
@@ -56,13 +35,7 @@ class StacksControllerTest < ActionDispatch::IntegrationTest
 
   test "requires authentication for create" do
     sign_out
-    post stacks_url, params: { tool_id: tools(:notion).id }
-    assert_redirected_to new_session_path
-  end
-
-  test "requires authentication for destroy" do
-    sign_out
-    delete stack_url(tools(:notion))
+    post stacks_url, params: { stack: { name: "Test" } }
     assert_redirected_to new_session_path
   end
 end

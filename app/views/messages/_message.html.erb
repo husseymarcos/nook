@@ -29,8 +29,8 @@
 
                 <%# Add to Stack Button %>
                 <% tool = Tool.find_by("lower(name) = ?", rec[:name].downcase) || Tool.create(name: rec[:name], description: rec[:description], platform: rec[:platform], category: "Other", is_default: false) %>
-                <% unless Current.user.tools.include?(tool) %>
-                  <%= button_to stacks_path(tool_id: tool.id), class: "btn btn--primary btn--sm" do %>
+                <% unless Current.user.has_tool?(tool) %>
+                  <%= button_to stack_tools_path(Current.user.default_stack, tool_id: tool.id), class: "btn btn--primary btn--sm" do %>
                     + Add to Stack
                   <% end %>
                 <% else %>

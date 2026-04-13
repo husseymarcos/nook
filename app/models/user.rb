@@ -1,52 +1,29 @@
 class User < ApplicationRecord
+  include Billable
+  include RateLimitable
+
   has_secure_password
-  pay_customer
   has_many :sessions, dependent: :destroy
   has_many :conversations, dependent: :destroy
-  has_many :user_stacks, dependent: :destroy
-  has_many :tools, through: :user_stacks
+  has_many :stacks, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
 
   normalizes :email, with: ->(e) { e.strip.downcase }
 
-  def premium?
-    pay_subscriptions.active.any? || (premium_until.present? && premium_until > Time.current)
+  def default_stack
+    stacks.first
   end
 
-  # Rate limiting
-  def can_search?
-    return true if premium?
-
-    # Reset counter if new month
-    if last_search_reset_at.nil? || last_search_reset_at.month != Time.current.month
-      update!(searches_this_month: 0, last_search_reset_at: Time.current)
-    end
-
-    searches_this_month < 10
+  def all_tool_names
+    stacks.flat_map(&:tool_names).uniq
   end
 
-  def increment_search_count!
-    increment!(:searches_this_month)
+  def has_tool?(tool)
+    stacks.joins(:tools).where(tools: { id: tool.id }).exists?
   end
 
-  # Stack methods
-  def stack_tools
-    tools.order("user_stacks.created_at ASC")
-  end
-
-  def add_tool_to_stack(tool)
-    return false if tools.count >= 20
-    return false if tools.include?(tool)
-
-    tools << tool
-  end
-
-  def remove_tool_from_stack(tool)
-    tools.delete(tool)
-  end
-
-  def stack_names
-    stack_tools.pluck(:name)
+  def tools
+    Tool.joins(stacks: :user).where(stacks: { user_id: id }).distinct
   end
 end

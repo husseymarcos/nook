@@ -1,6 +1,6 @@
 class Tool < ApplicationRecord
-  has_many :user_stacks, dependent: :destroy
-  has_many :users, through: :user_stacks
+  has_many :stack_tools, dependent: :destroy
+  has_many :stacks, through: :stack_tools
 
   validates :name, presence: true, uniqueness: true
   validates :description, presence: true

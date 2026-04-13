@@ -1,0 +1,11 @@
+one:
+  stack: one
+  tool: notion
+
+two:
+  stack: two
+  tool: streaks
+
+three:
+  stack: school
+  tool: figma

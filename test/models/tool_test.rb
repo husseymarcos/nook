@@ -75,13 +75,13 @@ class ToolTest < ActiveSupport::TestCase
     assert_includes customs, tools(:custom)
   end
 
-  test "has many user stacks" do
+  test "has many stack tools" do
     tool = tools(:notion)
-    assert_respond_to tool, :user_stacks
+    assert_respond_to tool, :stack_tools
   end
 
-  test "has many users through stacks" do
+  test "has many stacks through stack tools" do
     tool = tools(:notion)
-    assert_respond_to tool, :users
+    assert_respond_to tool, :stacks
   end
 end

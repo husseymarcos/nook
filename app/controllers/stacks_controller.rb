@@ -1,42 +1,40 @@
 class StacksController < ApplicationController
-  before_action :set_tool, only: [ :create, :destroy ]
+  before_action :set_stack, only: [ :show, :destroy ]
 
   def index
-    @stack_tools = Current.user.stack_tools
-    @default_tools = Tool.default_tools.where.not(id: Current.user.tools.pluck(:id))
+    @stacks = Current.user.stacks.ordered.includes(:tools)
+    @stack = @stacks.first || Stack.new
+    @default_tools = Tool.default_tools
     @custom_tool = Tool.new
   end
 
-  def create
-    tool = if params[:tool_id]
-      Tool.find(params[:tool_id])
-    else
-      # Create custom tool
-      Tool.create!(
-        name: params[:tool_name],
-        description: params[:tool_description] || "Custom tool",
-        platform: "Web",
-        category: "Other",
-        is_default: false
-      )
-    end
+  def show
+    @tools = @stack.tools
+    @default_tools = Tool.default_tools.where.not(id: @stack.tools.pluck(:id))
+  end
 
-    if Current.user.add_tool_to_stack(tool)
-      redirect_to stacks_path, notice: "#{tool.name} added to your stack"
+  def create
+    @stack = Current.user.stacks.build(stack_params)
+
+    if @stack.save
+      redirect_to @stack, notice: "Stack '#{@stack.name}' created"
     else
-      redirect_to stacks_path, alert: "Could not add tool to stack (limit reached or already added)"
+      redirect_to stacks_path, alert: "Could not create stack"
     end
   end
 
   def destroy
-    tool = Current.user.tools.find(params[:id])
-    Current.user.remove_tool_from_stack(tool)
-    redirect_to stacks_path, notice: "#{tool.name} removed from your stack"
+    @stack.destroy
+    redirect_to stacks_path, notice: "Stack deleted"
   end
 
   private
 
-  def set_tool
-    # Tool is found via params in each action
-  end
+    def set_stack
+      @stack = Current.user.stacks.find(params[:id])
+    end
+
+    def stack_params
+      params.require(:stack).permit(:name)
+    end
 end

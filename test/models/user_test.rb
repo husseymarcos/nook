@@ -69,45 +69,19 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "adds tools to personal stack" do
+  test "has many stacks" do
     user = users(:one)
-    tool = tools(:streaks)
-
-    assert_difference -> { user.tools.count }, 1 do
-      user.add_tool_to_stack(tool)
-    end
+    assert_equal 2, user.stacks.count
   end
 
-  test "prevents duplicate tools in stack" do
+  test "returns default stack" do
     user = users(:one)
-    tool = tools(:streaks)
-    user.add_tool_to_stack(tool)
-
-    assert_not user.add_tool_to_stack(tool)
-    assert_equal 1, user.tools.where(id: tool.id).count
+    assert_includes user.stacks, user.default_stack
   end
 
-  test "enforces maximum of 20 tools per stack" do
-    user = users(:three)
-
-    assert_not user.add_tool_to_stack(tools(:streaks))
-  end
-
-  test "removes tools from stack" do
+  test "collects all tool names from all stacks" do
     user = users(:one)
-    tool = tools(:notion)
-    user.add_tool_to_stack(tool)
-
-    assert_difference -> { user.tools.count }, -1 do
-      user.remove_tool_from_stack(tool)
-    end
-  end
-
-  test "lists all tools in stack by name" do
-    user = users(:one)
-    user.add_tool_to_stack(tools(:notion))
-    user.add_tool_to_stack(tools(:figma))
-
-    assert_equal %w[Notion Figma], user.stack_names
+    assert_includes user.all_tool_names, "Notion"
+    assert_includes user.all_tool_names, "Figma"
   end
 end

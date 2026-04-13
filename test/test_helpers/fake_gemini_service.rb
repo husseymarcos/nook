@@ -8,18 +8,15 @@ class GeminiService
     end
 
     def push_response(type:, content:)
-      # type is ignored here as the real service just returns a string
-      # but we'll use it to format the response if needed
       @responses << content
     end
   end
 
   def generate_response(conversation, user)
-    # Capture context for verification
     self.class.captured_prompts << {
       conversation: conversation,
       user: user,
-      context: { stack_list: user.stack_names.join(", ") }
+      context: { stack_list: user.all_tool_names.join(", ") }
     }
 
     self.class.responses.shift || "What is your primary goal?"
