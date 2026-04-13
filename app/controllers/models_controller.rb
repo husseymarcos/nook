@@ -1,6 +1,6 @@
 class ModelsController < ApplicationController
   def index
-    @models = available_chat_models
+    @models = ModelCatalog.available_chat_models
   end
 
   def show

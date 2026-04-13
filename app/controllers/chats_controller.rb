@@ -8,7 +8,7 @@ class ChatsController < ApplicationController
   def new
     @chat = Chat.new
     @selected_model = params[:model]
-    @chat_models = available_chat_models
+    @chat_models = ModelCatalog.available_chat_models
   end
 
   def create
