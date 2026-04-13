@@ -1,0 +1,26 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "35ede1def9c8e8d48b41284f9de87aea0203d79c5c2d59a482e669b2ae0ebc26",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/billing_controller.rb",
+      "line": 16,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(Current.user.set_payment_processor(:lemon_squeezy).checkout(:variant_id => price_id, :product_options => ({ :redirect_url => billing_success_url })).url, :allow_other_host => true)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "BillingController",
+        "method": "checkout"
+      },
+      "user_input": "Current.user.set_payment_processor(:lemon_squeezy).checkout(:variant_id => price_id, :product_options => ({ :redirect_url => billing_success_url })).url",
+      "confidence": "Weak",
+      "note": "This redirect is to a trusted third-party payment processor (Lemon Squeezy) and is not user-controlled."
+    }
+  ],
+  "updated": "2026-04-12",
+  "brakeman_version": "8.0.4"
+}
