@@ -9,16 +9,16 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   test "requires content" do
-    message = Message.new(role: messages(:one).role, conversation: messages(:one).conversation)
+    message = Message.new(role: messages(:one).role, chat: messages(:one).chat)
     assert_not message.valid?
     assert_includes message.errors[:content], "can't be blank"
   end
 
-  test "only allows user or assistant roles" do
+  test "only allows valid roles" do
     message = Message.new(
       role: "invalid",
       content: messages(:one).content,
-      conversation: messages(:one).conversation
+      chat: messages(:one).chat
     )
     assert_not message.valid?
     assert_includes message.errors[:role], "is not included in the list"

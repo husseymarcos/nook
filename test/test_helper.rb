@@ -7,6 +7,12 @@ require_relative "test_helpers/session_test_helper"
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
+RubyLLM.configure do |config|
+  config.openai_api_key = "test_openai_key"
+  config.anthropic_api_key = "test_anthropic_key"
+  config.gemini_api_key = "test_gemini_key"
+end
+
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers

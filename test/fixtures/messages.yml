@@ -1,15 +1,14 @@
 one:
-  conversation: one
   role: user
   content: "Help me find a tool for project management"
+  chat: one
 
 two:
-  conversation: one
   role: assistant
   content: "I'd be happy to help! What specific features do you need?"
+  chat: one
 
 three:
-  conversation: one
   role: assistant
   content: |-
     Here are my recommendations:
@@ -17,8 +16,9 @@ three:
     1. **Notion** - All-in-one workspace (Web) - Freemium
     2. **Figma** - Design tool (Mac) - Free
     3. **Slack** - Team chat (Web) - Paid
+  chat: one
 
 four:
-  conversation: one
   role: assistant
   content: "1. **Partial** - Description only"
+  chat: one

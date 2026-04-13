@@ -1,15 +1,11 @@
 one:
-  user: one
   title: "New Tool for Project Management"
 
 two:
-  user: one
   title: "Design Software Recommendations"
 
 three:
-  user: two
   title: "Private"
 
 four:
-  user: one
-  title: "New Conversation"
+  title: ~

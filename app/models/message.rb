@@ -1,8 +1,11 @@
 class Message < ApplicationRecord
-  belongs_to :conversation
+  acts_as_message
+  has_many_attached :attachments
 
-  validates :role, inclusion: { in: %w[user assistant] }
-  validates :content, presence: true
+  broadcasts_to ->(message) { "chat_#{message.chat_id}" }, inserts_by: :append
+
+  validates :role, inclusion: { in: %w[user assistant system tool] }
+  validates :content, presence: true, unless: -> { role == "tool" }
 
   # Check if this message is a user message
   def user?
@@ -20,7 +23,7 @@ class Message < ApplicationRecord
 
     # Extract app recommendations using regex
     # Format: "1. **App Name** - Description (Platform) - Pricing"
-    content.scan(/\d+\.\s*\*\*([^*]+)\*\*\s*-\s*([^\(]+)\s*\(([^)]+)\)\s*-\s*(.+)$/).map do |match|
+    content.to_s.scan(/\d+\.\s*\*\*([^*]+)\*\*\s*-\s*([^\(]+)\s*\(([^)]+)\)\s*-\s*(.+)$/).map do |match|
       {
         name: match[0]&.strip,
         description: match[1]&.strip,
@@ -28,5 +31,11 @@ class Message < ApplicationRecord
         pricing: match[3]&.strip
       }
     end.compact
+  end
+
+  def broadcast_append_chunk(content)
+    broadcast_append_to "chat_#{chat_id}",
+      target: "message_#{id}_content",
+      content: ERB::Util.html_escape(content.to_s)
   end
 end

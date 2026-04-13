@@ -1,16 +1,17 @@
 Rails.application.routes.draw do
+  resources :chats do
+    resources :messages, only: [ :create ]
+  end
+
+  resources :models, only: [ :index, :show ] do
+    collection do
+      post :refresh
+    end
+  end
   # Authentication
   resource :session
   resources :passwords, param: :token
   resources :users, only: [ :new, :create ]
-
-  # Main app routes
-  resources :conversations do
-    resources :messages, only: [ :create ]
-    member do
-      patch :update_title
-    end
-  end
 
   # Stack management
   resources :stacks do
@@ -27,5 +28,5 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Root
-  root "conversations#index"
+  root "chats#index"
 end

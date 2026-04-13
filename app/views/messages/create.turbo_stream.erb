@@ -1,31 +1,7 @@
-<%# Turbo Stream for new message %>
-<%= turbo_stream.append "messages" do %>
-  <%= render "messages/message", message: @message %>
-<% end %>
-
-<%# Show typing indicator for AI response %>
-<%= turbo_stream.append "messages" do %>
-  <%= render "messages/typing_indicator" %>
-<% end %>
-
-<%# Clear the form %>
-<%= turbo_stream.update dom_id(@conversation, :message_form) do %>
-  <%= form_with model: [@conversation, Message.new], class: "relative", id: dom_id(@conversation, :message_form) do |f| %>
-    <div class="relative flex items-end gap-2 bg-[#ffffff] rounded-full border border-[#e7e8e8] px-4 py-3 shadow-sm focus-within:ring-2 focus-within:ring-[#004be2]/20 focus-within:border-[#004be2] transition-all">
-      <%= f.text_area :content, 
-          rows: 1,
-          class: "flex-1 bg-transparent border-0 resize-none focus:ring-0 text-[#191c1d] placeholder-[#5f6368] max-h-32",
-          placeholder: "Describe what you need...",
-          data: { 
-            controller: "textarea-autogrow",
-            action: "keydown->textarea-autogrow#submitOnEnter"
-          } %>
-      
-      <%= f.button type: :submit, class: "p-2 rounded-full bg-[#004be2] text-white hover:bg-[#003bb8] transition-colors flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed" do %>
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-        </svg>
-      <% end %>
-    </div>
+<% if defined?(@chat) && @chat.present? %>
+  <%= turbo_stream.replace "new_message" do %>
+    <%= render "messages/form",
+      chat: @chat,
+      message: @chat.messages.build %>
   <% end %>
 <% end %>
