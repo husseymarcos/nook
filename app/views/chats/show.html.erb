@@ -4,22 +4,33 @@
 
 <%= turbo_stream_from "chat_#{@chat.id}" %>
 
-<% content_for :title, "Chat" %>
+<% content_for :title, @chat.title.presence || "Chat #{@chat.id}" %>
 
-<h1>Chat <%= @chat.id %></h1>
+<div class="chat-page">
+  <%# Chat Header %>
+  <div class="chat-header">
+    <div class="chat-header__content">
+      <div>
+        <h1 class="chat-header__title"><%= @chat.title.presence || "Chat #{@chat.id}" %></h1>
+        <p class="chat-header__meta">Using <%= @chat.model&.label || default_model_display_name %></p>
+      </div>
+      <%= link_to "Back to chats", chats_path, class: "btn btn--secondary btn--sm" %>
+    </div>
+  </div>
 
-<p>Using <strong><%= @chat.model&.label || default_model_display_name %></strong></p>
+  <%# Messages Area %>
+  <div class="messages-container" id="messages-container" data-controller="scroll">
+    <div class="messages-list" id="messages">
+      <% @chat.messages.where.not(id: nil).each do |message| %>
+        <%= render message %>
+      <% end %>
+    </div>
+  </div>
 
-<div id="messages">
-  <% @chat.messages.where.not(id: nil).each do |message| %>
-    <%= render message %>
-  <% end %>
-</div>
-
-<div style="margin-top: 30px;">
-  <%= render "messages/form", chat: @chat, message: @message %>
-</div>
-
-<div style="margin-top: 20px;">
-  <%= link_to "Back to chats", chats_path %>
+  <%# Input Area %>
+  <div class="chat-input-area">
+    <div class="chat-input-area__container">
+      <%= render "messages/form", chat: @chat, message: @message %>
+    </div>
+  </div>
 </div>

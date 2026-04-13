@@ -1,11 +1,23 @@
 <% content_for :title, "New chat" %>
 
-<h1>New chat</h1>
+<div class="page-container">
+  <div class="content-wrapper content-wrapper--narrow">
+    <div class="new-chat-page">
+      <%# Header %>
+      <div class="text-center mb-8">
+        <h1 class="page-title">Start a new chat</h1>
+        <p class="page-subtitle">Choose a model and ask anything</p>
+      </div>
 
-<%= render "form", chat: @chat %>
+      <%# Form %>
+      <div class="new-chat-form">
+        <%= render "form", chat: @chat %>
+      </div>
 
-<br>
-
-<div>
-  <%= link_to "Back to chats", chats_path %>
+      <%# Back link %>
+      <div class="text-center mt-6">
+        <%= link_to "← Back to chats", chats_path, class: "text-link" %>
+      </div>
+    </div>
+  </div>
 </div>

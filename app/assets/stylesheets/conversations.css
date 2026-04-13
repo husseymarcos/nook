@@ -352,3 +352,40 @@
   opacity: 0.7;
   margin: 0;
 }
+
+/* New Chat Page */
+.new-chat-page {
+  padding-top: var(--space-16);
+  padding-bottom: var(--space-16);
+}
+
+.new-chat-form {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 767px) {
+  .new-chat-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
+
+  .new-chat-form {
+    padding: var(--space-6);
+  }
+}
+
+/* Text link */
+.text-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: var(--font-medium);
+  transition: color var(--transition-fast);
+}
+
+.text-link:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}

@@ -1,8 +1,7 @@
-<%= form_with(model: chat, url: chats_path) do |form| %>
+<%= form_with(model: chat, url: chats_path, class: "form") do |form| %>
   <% if chat.errors.any? %>
-    <div style="color: red">
+    <div class="form-errors">
       <h2><%= pluralize(chat.errors.count, "error") %> prohibited this chat from being saved:</h2>
-
       <ul>
         <% chat.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,19 +10,23 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :model, "Select AI model:", style: "display: block" %>
+  <div class="form-group">
+    <%= form.label :model, "Select AI model", class: "form-label" %>
     <%= form.select :model,
         options_for_select(@chat_models.map { |model| [model.label, model.id] }.unshift([default_model_display_name, nil]), @selected_model),
         {},
-        style: "width: 100%; max-width: 600px; padding: 5px;" %>
+        class: "form-select" %>
   </div>
 
-  <div style="margin-top: 15px;">
-    <%= form.text_field :prompt, style: "width: 100%; max-width: 600px;", placeholder: "What would you like to discuss?", autofocus: true %>
+  <div class="form-group">
+    <%= form.label :prompt, "Your message", class: "form-label" %>
+    <%= form.text_field :prompt,
+        class: "form-input",
+        placeholder: "What would you like to discuss?",
+        autofocus: true %>
   </div>
 
-  <div>
-    <%= form.submit "Start new chat" %>
+  <div class="form-actions">
+    <%= form.submit "Start new chat", class: "btn btn--primary btn--full" %>
   </div>
 <% end %>

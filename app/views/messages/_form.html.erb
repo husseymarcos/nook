@@ -1,8 +1,7 @@
-<%= form_with(model: message, url: [@chat, message], id: "new_message") do |form| %>
+<%= form_with(model: message, url: [@chat, message], id: "new_message", class: "chat-input-form") do |form| %>
   <% if message.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:</h2>
-
+    <div style="color: red; margin-bottom: 1rem;">
+      <p><%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:</p>
       <ul>
         <% message.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,11 +10,17 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.text_field :content, style: "width: 100%; max-width: 600px;", placeholder: "Message...", autofocus: true %>
-  </div>
-
-  <div>
-    <%= form.submit "Send message" %>
+  <div class="chat-input-wrapper">
+    <%= form.text_field :content,
+        class: "chat-input",
+        placeholder: "Message...",
+        autofocus: true,
+        autocomplete: "off" %>
+    
+    <%= form.button type: :submit, class: "chat-submit" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.949A.75.75 0 006 8.25h3.372l-3.798 9.378a.75.75 0 001.35.66l10.5-10.5a.75.75 0 00-.604-1.265l-6.71-.414 3.787-4.24a.75.75 0 00-.338-1.205l-6.428-1.667z" />
+      </svg>
+    <% end %>
   </div>
 <% end %>
