@@ -1,6 +1,4 @@
 class BillingController < ApplicationController
-  before_action :require_authentication
-
   def index
     @user = Current.user
   end

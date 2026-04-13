@@ -1,5 +1,4 @@
 class ConversationsController < ApplicationController
-  before_action :require_authentication
   before_action :set_conversation, only: [ :show, :destroy, :update_title ]
 
   def index

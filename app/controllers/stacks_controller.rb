@@ -1,5 +1,4 @@
 class StacksController < ApplicationController
-  before_action :require_authentication
   before_action :set_tool, only: [ :create, :destroy ]
 
   def index

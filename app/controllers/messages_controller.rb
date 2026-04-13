@@ -1,5 +1,4 @@
 class MessagesController < ApplicationController
-  before_action :require_authentication
   before_action :set_conversation
   before_action :check_rate_limit, only: [ :create ]
 
