@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark">
+<html>
   <head>
     <title><%= content_for(:title) || "Nook - Discover Your Next Favorite App" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -23,14 +23,12 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-[#f6f6f6] text-[#191c1d] font-['Plus_Jakarta_Sans'] antialiased">
+  <body>
     <% if authenticated? %>
       <%= render "shared/navigation" %>
     <% end %>
 
-    <main class="min-h-screen">
-      <%= yield %>
-    </main>
+    <%= yield %>
 
     <%= render "shared/flash_messages" if flash.any? %>
   </body>

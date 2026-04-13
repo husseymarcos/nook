@@ -1,0 +1,222 @@
+/* Card Components */
+
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.card--clickable {
+  cursor: pointer;
+}
+
+.card--clickable:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.card--elevated {
+  background-color: var(--color-surface-elevated);
+}
+
+.card--bordered {
+  border: 1px solid var(--color-border);
+}
+
+/* Card content */
+.card__header {
+  margin-bottom: var(--space-4);
+}
+
+.card__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+}
+
+.card__subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.card__body {
+  color: var(--color-text-secondary);
+}
+
+.card__footer {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Conversation card */
+.conversation-card {
+  display: block;
+  padding: var(--space-6);
+  background-color: var(--color-surface-elevated);
+  border-radius: var(--radius-2xl);
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.conversation-card:hover {
+  background-color: var(--color-surface-hover);
+  text-decoration: none;
+}
+
+.conversation-card__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+  transition: color var(--transition-fast);
+}
+
+.conversation-card:hover .conversation-card__title {
+  color: var(--color-primary);
+}
+
+.conversation-card__meta {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.conversation-card__arrow {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  transition: color var(--transition-fast);
+}
+
+.conversation-card:hover .conversation-card__arrow {
+  color: var(--color-primary);
+}
+
+/* Tool card */
+.tool-card {
+  background-color: var(--color-surface-elevated);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+}
+
+.tool-card--in-message {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tool-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.tool-card__name {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.tool-card__name--in-message {
+  color: white;
+}
+
+.tool-card__badge {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  background-color: var(--color-primary-subtle);
+  color: var(--color-primary);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  border-radius: var(--radius-full);
+}
+
+.tool-card__description {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.tool-card__description--in-message {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.tool-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tool-card__platform {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.tool-card__platform--in-message {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Pricing card */
+.pricing-card {
+  background-color: var(--color-surface-elevated);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+}
+
+.pricing-card__plan {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.pricing-card__price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.pricing-card__amount {
+  font-family: var(--font-heading);
+  font-size: var(--text-5xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+}
+
+.pricing-card__period {
+  color: var(--color-text-muted);
+}
+
+.pricing-card__features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-8) 0;
+}
+
+.pricing-card__features li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  color: var(--color-text-secondary);
+}
+
+.pricing-card__features li:last-child {
+  margin-bottom: 0;
+}
+
+.pricing-card__icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}

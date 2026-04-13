@@ -1,33 +1,31 @@
 <%# Upgrade Prompt - Shown when rate limit is hit %>
-<div class="flex justify-start my-4">
-  <div class="max-w-[85%] md:max-w-[75%]">
-    <div class="bg-gradient-to-br from-[#004be2] to-[#809bff] text-white rounded-2xl rounded-bl-sm px-5 py-4">
-      <div class="flex items-center gap-3 mb-3">
-        <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-          </svg>
-        </div>
-        <div>
-          <h4 class="font-['Epilogue'] font-bold">You've reached your free limit</h4>
-          <p class="text-sm text-white/80">Upgrade to continue discovering apps</p>
-        </div>
+<div class="upgrade-prompt">
+  <div class="upgrade-prompt__card">
+    <div class="upgrade-prompt__header">
+      <div class="upgrade-prompt__icon">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
       </div>
-      
-      <div class="grid grid-cols-2 gap-3 mb-4">
-        <div class="bg-white/10 rounded-xl p-3 text-center">
-          <p class="font-bold text-2xl">$5</p>
-          <p class="text-xs text-white/70">per month</p>
-        </div>
-        <div class="bg-white/10 rounded-xl p-3 text-center">
-          <p class="font-bold text-2xl">$48</p>
-          <p class="text-xs text-white/70">per year (save 20%)</p>
-        </div>
+      <div>
+        <h4 class="upgrade-prompt__title">You've reached your free limit</h4>
+        <p class="upgrade-prompt__subtitle">Upgrade to continue discovering apps</p>
       </div>
-      
-      <%= link_to billing_index_path, class: "block w-full py-3 rounded-full bg-white text-[#004be2] font-semibold text-center hover:bg-white/90 transition-colors" do %>
-        Upgrade Now
-      <% end %>
     </div>
+
+    <div class="upgrade-prompt__pricing">
+      <div class="upgrade-prompt__price-option">
+        <p class="upgrade-prompt__price">$5</p>
+        <p class="upgrade-prompt__price-period">per month</p>
+      </div>
+      <div class="upgrade-prompt__price-option">
+        <p class="upgrade-prompt__price">$48</p>
+        <p class="upgrade-prompt__price-period">per year (save 20%)</p>
+      </div>
+    </div>
+
+    <%= link_to billing_index_path, class: "btn btn--white btn--full" do %>
+      Upgrade Now
+    <% end %>
   </div>
 </div>

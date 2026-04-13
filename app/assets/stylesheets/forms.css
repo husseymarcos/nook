@@ -1,0 +1,91 @@
+/* Form Components */
+
+.form-group {
+  margin-bottom: var(--space-6);
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-size: var(--text-base);
+  transition: all var(--transition-fast);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 75, 226, 0.1);
+}
+
+.form-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.form-input--textarea {
+  border-radius: var(--radius-lg);
+  resize: vertical;
+  min-height: 6rem;
+}
+
+.form-hint {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+/* Form card */
+.form-card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Error states */
+.form-group.has-error .form-input {
+  border-color: var(--color-error);
+}
+
+.form-error {
+  color: var(--color-error);
+  font-size: var(--text-sm);
+  margin-top: var(--space-1);
+}
+
+/* Error list */
+.error-list {
+  background-color: var(--color-error-subtle);
+  color: var(--color-error);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-4);
+}
+
+.error-list ul {
+  margin: 0;
+  padding-left: var(--space-4);
+}
+
+.error-list li {
+  margin-bottom: var(--space-1);
+}
+
+.error-list li:last-child {
+  margin-bottom: 0;
+}

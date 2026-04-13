@@ -1,60 +1,60 @@
 <%# Login Page %>
-<div class="min-h-screen flex items-center justify-center px-4 py-12">
-  <div class="w-full max-w-md">
+<div class="auth-page">
+  <div class="auth-container">
     <%# Logo %>
-    <div class="text-center mb-8">
-      <span class="font-['Epilogue'] font-bold text-4xl text-[#004be2]">Nook</span>
-      <p class="text-[#5f6368] mt-2">Discover your next favorite app</p>
+    <div class="auth-header">
+      <span class="auth-logo">Nook</span>
+      <p class="auth-tagline">Discover your next favorite app</p>
     </div>
 
     <%# Flash Messages %>
     <% if flash[:alert] %>
-      <div class="mb-4 p-4 rounded-2xl bg-[#ffd4d4] text-[#ba1a1a] text-sm font-medium">
-        <%= flash[:alert] %>
+      <div class="flash flash--alert mb-4">
+        <p class="flash__message"><%= flash[:alert] %></p>
       </div>
     <% end %>
     <% if flash[:notice] %>
-      <div class="mb-4 p-4 rounded-2xl bg-[#cce5ff] text-[#004be2] text-sm font-medium">
-        <%= flash[:notice] %>
+      <div class="flash flash--notice mb-4">
+        <p class="flash__message"><%= flash[:notice] %></p>
       </div>
     <% end %>
 
     <%# Form %>
-    <div class="bg-[#ffffff] rounded-3xl p-8 shadow-sm">
+    <div class="auth-form-wrapper">
       <%= form_with url: session_path, class: "space-y-6" do |form| %>
-        <div>
-          <%= form.label :email, "Email", class: "block text-sm font-semibold text-[#191c1d] mb-2" %>
+        <div class="form-group">
+          <%= form.label :email, "Email", class: "form-label" %>
           <%= form.email_field :email,
               required: true,
               autofocus: true,
               autocomplete: "username",
               placeholder: "you@example.com",
               value: params[:email],
-              class: "w-full px-4 py-3 rounded-full bg-[#f6f6f6] border border-[#e7e8e8] focus:border-[#004be2] focus:ring-2 focus:ring-[#004be2]/20 outline-none transition-all" %>
+              class: "form-input" %>
         </div>
 
-        <div>
-          <%= form.label :password, "Password", class: "block text-sm font-semibold text-[#191c1d] mb-2" %>
+        <div class="form-group">
+          <%= form.label :password, "Password", class: "form-label" %>
           <%= form.password_field :password,
               required: true,
               autocomplete: "current-password",
               placeholder: "••••••••",
               maxlength: 72,
-              class: "w-full px-4 py-3 rounded-full bg-[#f6f6f6] border border-[#e7e8e8] focus:border-[#004be2] focus:ring-2 focus:ring-[#004be2]/20 outline-none transition-all" %>
+              class: "form-input" %>
         </div>
 
-        <%= form.submit "Sign in", class: "w-full py-4 rounded-full bg-[#004be2] text-white font-semibold hover:bg-[#003bb8] transition-colors cursor-pointer" %>
+        <%= form.submit "Sign in", class: "btn btn--primary btn--full btn--xl" %>
       <% end %>
 
-      <div class="mt-6 text-center">
-        <%= link_to "Forgot password?", new_password_path, class: "text-[#004be2] hover:underline text-sm font-medium" %>
+      <div class="text-center mt-6">
+        <%= link_to "Forgot password?", new_password_path, class: "text-sm font-medium" %>
       </div>
     </div>
 
     <%# Sign Up CTA %>
-    <p class="text-center mt-6 text-[#5f6368] text-sm">
+    <p class="auth-footer">
       Don't have an account?
-      <%= link_to "Sign up", new_user_path, class: "text-[#004be2] hover:underline font-semibold" %>
+      <%= link_to "Sign up", new_user_path %>
     </p>
   </div>
 </div>

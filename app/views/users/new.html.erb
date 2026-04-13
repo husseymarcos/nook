@@ -1,16 +1,16 @@
 <%# Signup Page %>
-<div class="min-h-screen flex items-center justify-center px-4 py-12">
-  <div class="w-full max-w-md">
+<div class="auth-page">
+  <div class="auth-container">
     <%# Logo %>
-    <div class="text-center mb-8">
-      <span class="font-['Epilogue'] font-bold text-4xl text-[#004be2]">Nook</span>
-      <p class="text-[#5f6368] mt-2">Discover your next favorite app</p>
+    <div class="auth-header">
+      <span class="auth-logo">Nook</span>
+      <p class="auth-tagline">Discover your next favorite app</p>
     </div>
 
     <%# Error Messages %>
     <% if @user.errors.any? %>
-      <div class="mb-4 p-4 rounded-2xl bg-[#ffd4d4] text-[#ba1a1a] text-sm">
-        <ul class="list-disc list-inside">
+      <div class="error-list mb-4">
+        <ul>
           <% @user.errors.full_messages.each do |message| %>
             <li><%= message %></li>
           <% end %>
@@ -19,46 +19,46 @@
     <% end %>
 
     <%# Form %>
-    <div class="bg-[#ffffff] rounded-3xl p-8 shadow-sm">
+    <div class="auth-form-wrapper">
       <%= form_with model: @user, class: "space-y-6" do |form| %>
-        <div>
-          <%= form.label :email, "Email", class: "block text-sm font-semibold text-[#191c1d] mb-2" %>
+        <div class="form-group">
+          <%= form.label :email, "Email", class: "form-label" %>
           <%= form.email_field :email,
               required: true,
               autofocus: true,
               autocomplete: "email",
               placeholder: "you@example.com",
-              class: "w-full px-4 py-3 rounded-full bg-[#f6f6f6] border border-[#e7e8e8] focus:border-[#004be2] focus:ring-2 focus:ring-[#004be2]/20 outline-none transition-all" %>
+              class: "form-input" %>
         </div>
 
-        <div>
-          <%= form.label :password, "Password", class: "block text-sm font-semibold text-[#191c1d] mb-2" %>
-          <%= form.password_field :password, 
-              required: true, 
-              autocomplete: "new-password", 
+        <div class="form-group">
+          <%= form.label :password, "Password", class: "form-label" %>
+          <%= form.password_field :password,
+              required: true,
+              autocomplete: "new-password",
               placeholder: "••••••••",
               minlength: 8,
-              class: "w-full px-4 py-3 rounded-full bg-[#f6f6f6] border border-[#e7e8e8] focus:border-[#004be2] focus:ring-2 focus:ring-[#004be2]/20 outline-none transition-all" %>
-          <p class="text-xs text-[#5f6368] mt-1">Minimum 8 characters</p>
+              class: "form-input" %>
+          <p class="form-hint">Minimum 8 characters</p>
         </div>
 
-        <div>
-          <%= form.label :password_confirmation, "Confirm Password", class: "block text-sm font-semibold text-[#191c1d] mb-2" %>
-          <%= form.password_field :password_confirmation, 
-              required: true, 
-              autocomplete: "new-password", 
+        <div class="form-group">
+          <%= form.label :password_confirmation, "Confirm Password", class: "form-label" %>
+          <%= form.password_field :password_confirmation,
+              required: true,
+              autocomplete: "new-password",
               placeholder: "••••••••",
-              class: "w-full px-4 py-3 rounded-full bg-[#f6f6f6] border border-[#e7e8e8] focus:border-[#004be2] focus:ring-2 focus:ring-[#004be2]/20 outline-none transition-all" %>
+              class: "form-input" %>
         </div>
 
-        <%= form.submit "Create Account", class: "w-full py-4 rounded-full bg-[#004be2] text-white font-semibold hover:bg-[#003bb8] transition-colors cursor-pointer" %>
+        <%= form.submit "Create Account", class: "btn btn--primary btn--full btn--xl" %>
       <% end %>
     </div>
 
     <%# Login CTA %>
-    <p class="text-center mt-6 text-[#5f6368] text-sm">
-      Already have an account? 
-      <%= link_to "Sign in", new_session_path, class: "text-[#004be2] hover:underline font-semibold" %>
+    <p class="auth-footer">
+      Already have an account?
+      <%= link_to "Sign in", new_session_path %>
     </p>
   </div>
 </div>

@@ -1,0 +1,78 @@
+/* Authentication Pages */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4);
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 28rem;
+}
+
+/* Auth header */
+.auth-header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.auth-logo {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  font-weight: var(--font-bold);
+  color: var(--color-primary);
+  display: inline-block;
+  margin-bottom: var(--space-2);
+}
+
+.auth-tagline {
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  margin: 0;
+}
+
+/* Auth form */
+.auth-form-wrapper {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Auth footer */
+.auth-footer {
+  text-align: center;
+  margin-top: var(--space-6);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.auth-footer a {
+  font-weight: var(--font-semibold);
+}
+
+/* Password reset specific */
+.password-reset-page {
+  min-height: 100vh;
+  padding: var(--space-8);
+}
+
+.password-reset-page h1 {
+  margin-bottom: var(--space-4);
+}
+
+.password-reset-page form {
+  max-width: 28rem;
+}
+
+.password-reset-page form > * {
+  margin-bottom: var(--space-4);
+}
+
+.password-reset-page input[type="email"],
+.password-reset-page input[type="password"] {
+  width: 100%;
+}

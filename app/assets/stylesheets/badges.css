@@ -1,0 +1,99 @@
+/* Badge Components */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge--primary {
+  background-color: var(--color-primary-subtle);
+  color: var(--color-primary);
+}
+
+.badge--secondary {
+  background-color: var(--color-surface-elevated);
+  color: var(--color-text-secondary);
+}
+
+.badge--success {
+  background-color: rgba(0, 200, 83, 0.1);
+  color: var(--color-success);
+}
+
+.badge--error {
+  background-color: var(--color-error-subtle);
+  color: var(--color-error);
+}
+
+.badge--premium {
+  background-color: var(--color-primary-subtle);
+  color: var(--color-primary);
+}
+
+/* Flash messages */
+.flash-messages {
+  position: fixed;
+  top: 5rem;
+  right: var(--space-4);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.flash {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  animation: fade-in 0.3s ease;
+}
+
+.flash--notice {
+  background-color: var(--color-primary-subtle);
+  color: var(--color-primary);
+}
+
+.flash--alert {
+  background-color: var(--color-error-subtle);
+  color: var(--color-error);
+}
+
+.flash__message {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  margin: 0;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Status banner */
+.status-banner {
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  text-align: center;
+}
+
+.status-banner--premium {
+  background-color: var(--color-primary-subtle);
+  color: var(--color-primary);
+}
+
+.status-banner__text {
+  font-weight: var(--font-semibold);
+  margin: 0;
+}
