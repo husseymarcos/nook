@@ -4,40 +4,39 @@ export default class extends Controller {
   static targets = ["modal", "input"]
 
   connect() {
-    this.boundKeydown = this.handleKeydown.bind(this)
-    document.addEventListener("keydown", this.boundKeydown)
-    this.isOpen = false
+    window.addEventListener("keydown", this.handleKeydown.bind(this), { capture: true })
   }
 
   disconnect() {
-    document.removeEventListener("keydown", this.boundKeydown)
+    window.removeEventListener("keydown", this.handleKeydown.bind(this), { capture: true })
   }
 
   handleKeydown(event) {
     if ((event.metaKey || event.ctrlKey) && event.key === "k") {
       event.preventDefault()
-      if (this.isOpen) {
-        this.close()
-      } else {
-        this.open()
-      }
+      this.isOpen ? this.close() : this.open()
+      return
     }
 
-    if (event.key === "Escape" && this.isOpen) {
-      this.close()
+    if (event.key === "Escape") {
+      event.stopImmediatePropagation()
+      event.preventDefault()
+      if (this.isOpen) this.close()
     }
   }
 
   open() {
-    this.isOpen = true
     this.modalTarget.classList.add("command-palette--open")
     this.inputTarget.focus()
   }
 
   close() {
-    this.isOpen = false
     this.modalTarget.classList.remove("command-palette--open")
     this.inputTarget.value = ""
+  }
+
+  get isOpen() {
+    return this.modalTarget.classList.contains("command-palette--open")
   }
 
   clickOutside(event) {
