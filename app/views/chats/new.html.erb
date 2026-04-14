@@ -16,7 +16,7 @@
 
     <%# Input Form %>
     <div class="new-chat-input-area">
-      <%= form_with(model: @chat, url: chats_path, class: "new-chat-form", data: { controller: "new-chat" }) do |form| %>
+      <%= form_with(model: @chat, url: chats_path, class: "new-chat-form", data: { controller: "chat-form" }) do |form| %>
         <% if @chat.errors.any? %>
           <div class="form-errors">
             <h2><%= pluralize(@chat.errors.count, "error") %> prohibited this chat from being saved:</h2>
@@ -36,7 +36,7 @@
               placeholder: "What are you building?",
               autofocus: true,
               autocomplete: "off",
-              data: { new_chat_target: "input", action: "keydown->new-chat#handleKeydown" } %>
+              data: { chat_form_target: "input", action: "keydown->chat-form#handleKeydown" } %>
           
           <%= form.button type: :submit, class: "new-chat-submit" do %>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
