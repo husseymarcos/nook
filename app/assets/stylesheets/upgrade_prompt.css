@@ -1,0 +1,80 @@
+.upgrade-prompt {
+  display: flex;
+  justify-content: flex-start;
+  margin: var(--space-4) 0;
+}
+
+.upgrade-prompt__card {
+  max-width: 85%;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  color: white;
+  border-radius: var(--radius-xl);
+  border-bottom-left-radius: var(--space-1);
+  padding: var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .upgrade-prompt__card {
+    max-width: 75%;
+  }
+}
+
+.upgrade-prompt__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.upgrade-prompt__icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-full);
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upgrade-prompt__icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.upgrade-prompt__title {
+    font-family: var(--font-heading), serif;
+  font-weight: var(--font-bold);
+  margin: 0;
+}
+
+.upgrade-prompt__subtitle {
+  font-size: var(--text-sm);
+  opacity: 0.8;
+  margin: 0;
+}
+
+.upgrade-prompt__pricing {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.upgrade-prompt__price-option {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  text-align: center;
+}
+
+.upgrade-prompt__price {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  margin: 0;
+}
+
+.upgrade-prompt__price-period {
+  font-size: var(--text-xs);
+  opacity: 0.7;
+  margin: 0;
+}

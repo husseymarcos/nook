@@ -4,17 +4,17 @@
 
 <%= turbo_stream_from "chat_#{@chat.id}" %>
 
-<% content_for :title, @chat.title.presence || "Chat #{@chat.id}" %>
+<% content_for :title, @chat.title.presence || "Finding tools" %>
 
 <div class="chat-page">
   <%# Chat Header %>
   <div class="chat-header">
     <div class="chat-header__content">
       <div>
-        <h1 class="chat-header__title"><%= @chat.title.presence || "Chat #{@chat.id}" %></h1>
-        <p class="chat-header__meta">Using <%= @chat.model&.label || default_model_display_name %></p>
+        <h1 class="chat-header__title" data-controller="editable-title" data-editable-title-chat-id-value="<%= @chat.id %>"><%= @chat.title.presence || "Finding tools" %></h1>
+        <p class="chat-header__meta">Discovering the best tools for your project</p>
       </div>
-      <%= link_to "Back to chats", chats_path, class: "btn btn--secondary btn--sm" %>
+      <%= link_to "History", chats_path, class: "btn btn--secondary btn--sm" %>
     </div>
   </div>
 

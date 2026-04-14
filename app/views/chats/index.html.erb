@@ -1,28 +1,48 @@
-<% if notice.present? %>
-  <p style="color: green"><%= notice %></p>
-<% end %>
+<% content_for :title, "History" %>
 
-<% content_for :title, "Chats" %>
+<div class="page-container page-container--with-mobile-nav">
+  <div class="content-wrapper">
+    <div class="conversations-page">
+      <%# Header %>
+      <div class="conversations-header">
+        <h1 class="conversations-header__title">Chat History</h1>
+        <p class="conversations-header__subtitle">Your past conversations</p>
+      </div>
 
-<h1>Chats</h1>
-<p>
-  <%= link_to "Models", models_path %>
-</p>
-
-<div id="chats">
-  <% if @chats.any? %>
-    <% @chats.each do |chat| %>
-      <%= render chat %>
-      <p>
-        <%= link_to "Show this chat", chat %>
-      </p>
-      <p>
-        <%= link_to "Destroy this chat", chat, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-      </p>
-    <% end %>
-  <% else %>
-    <p>No chats found.</p>
-  <% end %>
+      <%# Chats List %>
+      <% if @chats.any? %>
+        <div class="conversations-list">
+          <% @chats.each do |chat| %>
+            <%= link_to chat, class: "chat-list-item" do %>
+              <div class="chat-list-item__content">
+                <h3 class="chat-list-item__title"><%= chat.title.presence || "Chat #{chat.id}" %></h3>
+                <div class="chat-list-item__meta">
+                  <span class="chat-list-item__model"><%= chat.model&.label || default_model_display_name %></span>
+                  <span class="chat-list-item__separator">·</span>
+                  <span class="chat-list-item__date"><%= time_ago_in_words(chat.created_at) %> ago</span>
+                </div>
+              </div>
+              <%= button_to chat, method: :delete, class: "chat-list-item__delete", form: { data: { turbo_confirm: "Are you sure you want to delete this chat?" } }, onclick: "event.stopPropagation();" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
+                </svg>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <%# Empty State %>
+        <div class="empty-state">
+          <div class="empty-state__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 01-.814 1.686.75.75 0 00.44 1.223zM8.25 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25zM10.875 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25zM13.5 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <h3 class="empty-state__title">No chats yet</h3>
+          <p class="empty-state__text">Start a new conversation to get help with anything you need.</p>
+          <%= link_to "Start a chat", new_chat_path, class: "btn btn--primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
-
-<%= link_to "New chat", new_chat_path %>

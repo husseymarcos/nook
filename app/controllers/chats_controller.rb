@@ -1,20 +1,20 @@
 class ChatsController < ApplicationController
   before_action :set_chat, only: [ :show, :destroy ]
 
+  DEFAULT_MODEL="gemini-2.5-flash"
+
   def index
     @chats = Chat.order(created_at: :desc)
   end
 
   def new
     @chat = Chat.new
-    @selected_model = params[:model]
-    @chat_models = ModelCatalog.available_chat_models
   end
 
   def create
     prompt = params.dig(:chat, :prompt)
     if prompt.present?
-      @chat = Chat.create!(model: params.dig(:chat, :model).presence)
+      @chat = Chat.create!(model: DEFAULT_MODEL)
       ChatResponseJob.perform_later(@chat.id, prompt)
 
       redirect_to @chat, notice: "Chat was successfully created."

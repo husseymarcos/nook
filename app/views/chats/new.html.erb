@@ -1,23 +1,45 @@
 <% content_for :title, "New chat" %>
 
-<div class="page-container">
-  <div class="content-wrapper content-wrapper--narrow">
-    <div class="new-chat-page">
-      <%# Header %>
-      <div class="text-center mb-8">
-        <h1 class="page-title">Start a new chat</h1>
-        <p class="page-subtitle">Choose a model and ask anything</p>
-      </div>
+<div class="new-chat-page">
+  <div class="new-chat-container">
+    <%# Welcome State %>
+    <div class="new-chat-welcome">
+      <%= image_tag "/logo.png", alt: "Nook logo", class: "new-chat-logo" %>
+      <h1 class="welcome-state__title">Find your next favorite tool</h1>
+      <p class="welcome-state__text">Tell me what you're building, and I'll recommend the best tools</p>
+    </div>
 
-      <%# Form %>
-      <div class="new-chat-form">
-        <%= render "form", chat: @chat %>
-      </div>
+    <%# Input Form %>
+    <div class="new-chat-input-area">
+      <%= form_with(model: @chat, url: chats_path, class: "new-chat-form", data: { controller: "new-chat" }) do |form| %>
+        <% if @chat.errors.any? %>
+          <div class="form-errors">
+            <h2><%= pluralize(@chat.errors.count, "error") %> prohibited this chat from being saved:</h2>
+            <ul>
+              <% @chat.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
 
-      <%# Back link %>
-      <div class="text-center mt-6">
-        <%= link_to "← Back to chats", chats_path, class: "text-link" %>
-      </div>
+        <%= form.hidden_field :model, value: "gemini-2.5-flash" %>
+
+        <div class="new-chat-input-wrapper">
+          <%= form.text_field :prompt,
+              class: "new-chat-input",
+              placeholder: "What are you building?",
+              autofocus: true,
+              autocomplete: "off",
+              data: { new_chat_target: "input", action: "keydown->new-chat#handleKeydown" } %>
+          
+          <%= form.button type: :submit, class: "new-chat-submit" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-.75-4.75a.75.75 0 011.5 0v-5.69l2.22 2.22a.75.75 0 111.06-1.06l-3.5-3.5a.75.75 0 01-1.06 0l-3.5 3.5a.75.75 0 111.06 1.06l2.22-2.22v5.69z" clip-rule="evenodd" />
+            </svg>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
