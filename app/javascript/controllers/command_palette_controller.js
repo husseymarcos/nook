@@ -4,11 +4,12 @@ export default class extends Controller {
   static targets = ["modal", "input"]
 
   connect() {
-    window.addEventListener("keydown", this.handleKeydown.bind(this), { capture: true })
+    this.boundHandleKeydown = this.handleKeydown.bind(this)
+    window.addEventListener("keydown", this.boundHandleKeydown)
   }
 
   disconnect() {
-    window.removeEventListener("keydown", this.handleKeydown.bind(this), { capture: true })
+    window.removeEventListener("keydown", this.boundHandleKeydown)
   }
 
   handleKeydown(event) {
@@ -18,10 +19,9 @@ export default class extends Controller {
       return
     }
 
-    if (event.key === "Escape") {
-      event.stopImmediatePropagation()
+    if (event.key === "Escape" && this.isOpen) {
       event.preventDefault()
-      if (this.isOpen) this.close()
+      this.close()
     }
   }
 

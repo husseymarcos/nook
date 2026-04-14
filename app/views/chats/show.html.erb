@@ -4,21 +4,19 @@
 
 <%= turbo_stream_from "chat_#{@chat.id}" %>
 
-<% content_for :title, @chat.title.presence || "Finding tools" %>
-
 <div class="chat-page">
-  <%# Chat Header %>
   <div class="chat-header">
-    <div class="chat-header__content">
-      <div>
-        <h1 class="chat-header__title" data-controller="editable-title" data-editable-title-chat-id-value="<%= @chat.id %>"><%= @chat.title.presence || "Finding tools" %></h1>
-        <p class="chat-header__meta">Discovering the best tools for your project</p>
+    <h1 class="chat-header-title"><%= @chat.title.presence || "New Chat" %></h1>
+    <div class="chat-header-meta">
+      <button type="button" class="chat-header-logo-button" data-action="click->command-palette#open" title="Press Cmd+K to open menu">
+        <%= image_tag "/logo.png", alt: "Nook logo", class: "chat-header-logo" %>
+      </button>
+      <div class="chat-header-hint">
+        <kbd>Cmd</kbd>+<kbd>K</kbd>
       </div>
-      <%= link_to "History", chats_path, class: "btn btn--secondary btn--sm" %>
     </div>
   </div>
 
-  <%# Messages Area %>
   <div class="messages-container" id="messages-container" data-controller="scroll">
     <div class="messages-list" id="messages">
       <% @chat.messages.where.not(id: nil).each do |message| %>
@@ -27,7 +25,6 @@
     </div>
   </div>
 
-  <%# Input Area %>
   <div class="chat-input-area">
     <div class="chat-input-area__container">
       <%= render "messages/form", chat: @chat, message: @message %>
