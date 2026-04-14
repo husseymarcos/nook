@@ -4,9 +4,14 @@
   <div class="new-chat-container">
     <%# Welcome State %>
     <div class="new-chat-welcome">
-      <%= image_tag "/logo.png", alt: "Nook logo", class: "new-chat-logo" %>
+      <button type="button" class="new-chat-logo-button" data-action="click->command-palette#open" title="Press Cmd+K to open menu">
+        <%= image_tag "/logo.png", alt: "Nook logo", class: "new-chat-logo" %>
+      </button>
       <h1 class="welcome-state__title">Find your next favorite tool</h1>
       <p class="welcome-state__text">Tell me what you're building, and I'll recommend the best tools</p>
+      <div class="new-chat-hint">
+        <kbd>Cmd</kbd>+<kbd>K</kbd> to open menu
+      </div>
     </div>
 
     <%# Input Form %>

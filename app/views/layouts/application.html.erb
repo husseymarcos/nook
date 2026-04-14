@@ -22,7 +22,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body data-controller="command-palette">
     <% if authenticated? %>
       <%= render "shared/command_palette" %>
     <% end %>
