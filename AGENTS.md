@@ -202,4 +202,64 @@ class Event::RelayJob < ApplicationJob
     event.relay_now
   end
 end
+
+## Testing Philosophy
+
+Tests should be business-oriented, not implementation-specific. Test *what* the code does, not *how* it does it.
+
+### Good: Testing Business Behavior
+
+```ruby
+# Good - tests what users care about
+test "assistant message can contain tool recommendations" do
+  message = messages(:assistant_with_recommendations)
+
+  assert message.from_assistant?
+  assert message.has_recommendations?
+  assert_equal 3, message.recommendations.count
+
+  first_rec = message.recommendations.first
+  assert_equal "Notion", first_rec[:name]
+end
+
+test "message knows if it is from a user" do
+  user_message = messages(:user_message)
+  assistant_message = messages(:assistant_message)
+
+  assert user_message.from_user?
+  assert_not assistant_message.from_user?
+end
+```
+
+### Bad: Testing Implementation Details
+
+```ruby
+# Bad - tests internal structure, not behavior
+test "includes all concerns" do
+  message = Message.new
+  assert_respond_to message, :user?
+  assert_respond_to message, :recommendations
+  assert_respond_to message, :has_recommendations?
+end
+
+test "validates role inclusion" do
+  valid_roles = %w[user assistant system tool]
+  valid_roles.each do |role|
+    message = Message.new(role: role, chat: chats(:one))
+    assert message.valid?
+  end
+end
+```
+
+### Key Principles
+
+1. **Test behavior, not structure** - Don't test that a method exists or that a concern is included. Test what the object does.
+
+2. **Use descriptive method names in tests** - `from_user?` is clearer in test assertions than `user?`
+
+3. **Test real scenarios** - Create fixtures that represent actual use cases (e.g., "assistant_with_recommendations" not "message_three")
+
+4. **Avoid testing validations directly** - Test that invalid data is rejected, but focus on the business rule ("user messages require content") not the mechanism ("validates presence")
+
+5. **Skip "meta" tests** - Don't test that your code has certain modules, methods, or includes. Those break when you refactor even if behavior is identical.
 ```

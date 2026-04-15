@@ -1,12 +1,12 @@
 <div class="message message--<%= message.user? ? 'user' : 'assistant' %>" id="<%= dom_id(message) %>">
   <div class="message__bubble">
-    <% if message.assistant? && (recommendations = message.recommendations).any? %>
+    <% if message.assistant? && message.has_recommendations? %>
       <div class="message__text">
-        <%= simple_format(message.content.split(/\d+\.\s*\*\*/).first.strip) %>
+        <%= simple_format(message.content_without_recommendations) %>
       </div>
 
       <div class="message__tools">
-        <% recommendations.each_with_index do |rec, index| %>
+        <% message.recommendations.each_with_index do |rec, index| %>
           <div class="tool-card tool-card--in-message">
             <div class="tool-card__header">
               <h4 class="tool-card__name tool-card__name--in-message"><%= rec[:name] %></h4>
@@ -22,12 +22,12 @@
                 <%= rec[:platform] %>
               </span>
 
-              <% tool = Tool.find_by("lower(name) = ?", rec[:name].downcase) || Tool.create(name: rec[:name], description: rec[:description], platform: rec[:platform], category: "Other", is_default: false) %>
-              <% unless Current.user.has_tool?(tool) %>
+              <% tool = message.tools_from_recommendations.find { |t| t.name.downcase == rec[:name].downcase } %>
+              <% if tool && !Current.user.has_tool?(tool) %>
                 <%= button_to stack_tools_path(Current.user.default_stack, tool_id: tool.id), class: "btn btn--primary btn--sm" do %>
                   + Add to Stack
                 <% end %>
-              <% else %>
+              <% elsif tool %>
                 <span class="text-xs" style="color: var(--color-success); font-weight: 500;">✓ In Stack</span>
               <% end %>
             </div>
