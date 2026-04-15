@@ -70,12 +70,12 @@
 
 .new-chat-input-wrapper {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: var(--space-3);
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-full);
-  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-6);
+  border-radius: 24px;
+  padding: var(--space-2) var(--space-6);
   box-shadow: var(--shadow-sm), 0 4px 20px rgba(0, 0, 0, 0.03);
   transition: all var(--transition-fast);
 }
@@ -92,6 +92,10 @@
   font-size: var(--text-lg);
   color: var(--color-text);
   padding: var(--space-2) 0;
+  resize: none;
+  field-sizing: content;
+  max-height: 200px;
+  line-height: 1.5;
 }
 
 .new-chat-input:focus {
@@ -103,32 +107,33 @@
 }
 
 .new-chat-submit {
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 2rem;
+  height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-primary);
-  color: white;
+  background-color: transparent;
+  color: var(--color-primary);
   border: none;
-  border-radius: var(--radius-full);
+  border-radius: 0;
   cursor: pointer;
   transition: all var(--transition-fast);
   flex-shrink: 0;
+  padding: 0;
 }
 
 .new-chat-submit:hover {
-  background-color: var(--color-primary-dark);
-  transform: scale(1.02);
+  color: var(--color-primary-dark);
+  transform: scale(1.1);
 }
 
 .new-chat-submit:active {
-  transform: scale(0.98);
+  transform: scale(0.95);
 }
 
 .new-chat-submit svg {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .new-chat-hint {

@@ -11,17 +11,11 @@
   <% end %>
 
   <div class="chat-input-wrapper">
-    <%= form.text_field :content,
+    <%= form.text_area :content,
         class: "chat-input",
         placeholder: "Message...",
         autofocus: true,
-        autocomplete: "off" %>
-
-    <%= form.button type: :submit, class: "chat-submit" do %>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M3.5 13.09L20.5 4.5L12 20.5L10 14L3.5 13.09Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <path d="M10 14L20.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    <% end %>
+        autocomplete: "off",
+        rows: 1 %>
   </div>
 <% end %>

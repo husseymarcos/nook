@@ -31,18 +31,13 @@
         <%= form.hidden_field :model, value: "gemini-2.5-flash" %>
 
         <div class="new-chat-input-wrapper">
-          <%= form.text_field :prompt,
+          <%= form.text_area :prompt,
               class: "new-chat-input",
               placeholder: "What are you building?",
               autofocus: true,
               autocomplete: "off",
+              rows: 1,
               data: { chat_form_target: "input", action: "keydown->chat-form#handleKeydown" } %>
-          
-          <%= form.button type: :submit, class: "new-chat-submit" do %>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-.75-4.75a.75.75 0 011.5 0v-5.69l2.22 2.22a.75.75 0 111.06-1.06l-3.5-3.5a.75.75 0 01-1.06 0l-3.5 3.5a.75.75 0 111.06 1.06l2.22-2.22v5.69z" clip-rule="evenodd" />
-            </svg>
-          <% end %>
         </div>
       <% end %>
     </div>
