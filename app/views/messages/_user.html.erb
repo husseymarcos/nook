@@ -1,6 +1,6 @@
 <% user ||= local_assigns[:message] %>
-<div id="message_<%= user.id %>" class="message message--user">
+<div id="<%= dom_id(user) %>" class="message message--user">
   <div class="message__bubble">
-    <div class="message__text"><%= simple_format(user.content) %></div>
+    <div class="message__text" id="<%= dom_id(user, :content) %>"><%= simple_format(user.content) %></div>
   </div>
 </div>

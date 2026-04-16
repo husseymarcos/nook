@@ -1,7 +1,7 @@
 <div class="message message--<%= message.user? ? 'user' : 'assistant' %>" id="<%= dom_id(message) %>">
   <div class="message__bubble">
     <% if message.assistant? && message.has_recommendations? %>
-      <div class="message__text">
+      <div class="message__text" id="<%= dom_id(message, :content) %>">
         <%= simple_format(message.content_without_recommendations) %>
       </div>
 
@@ -35,7 +35,7 @@
         <% end %>
       </div>
     <% else %>
-      <div class="message__text">
+      <div class="message__text" id="<%= dom_id(message, :content) %>">
         <%= simple_format(message.content) %>
       </div>
     <% end %>

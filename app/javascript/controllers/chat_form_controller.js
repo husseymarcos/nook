@@ -21,6 +21,6 @@ export default class extends Controller {
   }
 
   isSubmitShortcut(event) {
-    return event.key === "Enter" && !event.shiftKey
+    return event.key === "Enter" && event.shiftKey
   }
 }

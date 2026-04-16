@@ -142,7 +142,8 @@
   color: var(--color-text-muted);
 }
 
-.chat-submit {
+.chat-submit,
+.chat-submit-button {
   width: 32px;
   height: 32px;
   display: flex;
@@ -159,18 +160,21 @@
   padding: 0;
 }
 
-.chat-submit:hover {
+.chat-submit:hover,
+.chat-submit-button:hover {
   color: var(--color-primary-dark);
   transform: scale(1.1);
 }
 
-.chat-submit:active {
+.chat-submit:active,
+.chat-submit-button:active {
   transform: scale(0.95);
 }
 
-.chat-submit svg {
-  width: 24px;
-  height: 24px;
+.chat-submit svg,
+.chat-submit-button svg {
+  width: 20px;
+  height: 20px;
 }
 
 .rate-limit-info {
