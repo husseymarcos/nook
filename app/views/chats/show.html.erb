@@ -19,7 +19,7 @@
 
   <div class="messages-container" id="messages-container" data-controller="scroll">
     <div class="messages-list" id="messages">
-      <% @chat.messages.where.not(id: nil).each do |message| %>
+      <% @chat.messages.where.not(id: nil).reject(&:from_system?).each do |message| %>
         <%= render message %>
       <% end %>
     </div>

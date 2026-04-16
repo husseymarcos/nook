@@ -2,7 +2,7 @@ module Message::Broadcastable
   extend ActiveSupport::Concern
 
   included do
-    broadcasts_to ->(message) { "chat_#{message.chat_id}" }, inserts_by: :append
+    after_create_commit :broadcast_message, unless: :from_system?
   end
 
   def broadcast_append_chunk(chunk_content)
@@ -12,6 +12,10 @@ module Message::Broadcastable
   end
 
   private
+
+    def broadcast_message
+      broadcast_append_to "chat_#{chat_id}"
+    end
 
     def stream_name
       "chat_#{chat_id}"
