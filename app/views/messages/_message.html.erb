@@ -23,7 +23,7 @@
               </span>
 
               <% tool = message.tools_from_recommendations.find { |t| t.name.downcase == rec[:name].downcase } %>
-              <% if tool && !Current.user.has_tool?(tool) %>
+              <% if tool && !Current.user.owns?(tool) %>
                 <%= button_to stack_tools_path(Current.user.default_stack, tool_id: tool.id), class: "btn btn--primary btn--sm" do %>
                   + Add to Stack
                 <% end %>

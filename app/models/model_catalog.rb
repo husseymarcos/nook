@@ -9,11 +9,8 @@ class ModelCatalog
     end
 
     private
-
       def free_gemini?(model)
-        return false unless model.provider.to_s == "gemini"
-
-        model.id.to_s.match?(FREE_GEMINI_PATTERN)
+        model.provider.to_s == "gemini" && model.id.to_s.match?(FREE_GEMINI_PATTERN)
       end
   end
 end

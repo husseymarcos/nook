@@ -1,32 +1,26 @@
 Rails.application.routes.draw do
   resources :chats do
-    resources :messages, only: [ :create ]
+    resources :messages, only: :create
   end
 
-  resources :models, only: [ :index, :show ] do
-    collection do
-      post :refresh
-    end
-  end
-  # Authentication
+  resources :models, only: %i[ index show ]
+  resource :models_refresh, only: :create, controller: "models/refreshes"
+
   resource :session
   resources :passwords, param: :token
-  resources :users, only: [ :new, :create ]
+  resources :users, only: %i[ new create ]
 
-  # Stack management
   resources :stacks do
-    resources :stack_tools, only: [ :create, :destroy ], as: :tools
+    resources :stack_tools, only: %i[ create destroy ], as: :tools
   end
 
-  # Billing/Upgrade
-  resources :billing, only: [ :index ]
-  post "/billing/checkout", to: "billing#checkout", as: :checkout
-  get "/billing/success", to: "billing#success", as: :billing_success
-  get "/billing/cancel", to: "billing#cancel", as: :billing_cancel
+  resource :billing, only: :show, controller: :billing do
+    resource :checkout, only: :create, module: :billing
+    resource :success, only: :show, module: :billing, controller: :successes
+    resource :cancellation, only: :show, module: :billing
+  end
 
-  # Health check
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Root
   root "chats#new"
 end

@@ -3,14 +3,14 @@ require "ostruct"
 
 class BillingControllerTest < ActionDispatch::IntegrationTest
   test "shows pricing page" do
-    get billing_index_url
+    get billing_url
     assert_response :success
   end
 
   test "shows premium status for paid users" do
     Current.user.update!(premium_until: 1.month.from_now)
 
-    get billing_index_url
+    get billing_url
     assert_response :success
   end
 
@@ -23,7 +23,7 @@ class BillingControllerTest < ActionDispatch::IntegrationTest
     ::LemonSqueezy::Customer.expects(:create).returns(mock_customer)
     ::LemonSqueezy::Checkout.expects(:create).returns(mock_checkout)
 
-    post checkout_url, params: { plan: "monthly" }
+    post billing_checkout_url, params: { plan: "monthly" }
     assert_redirected_to "https://checkout.lemonsqueezy.com/test"
   end
 
@@ -34,19 +34,19 @@ class BillingControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "handles cancelled checkout" do
-    get billing_cancel_url
-    assert_redirected_to billing_index_path
+    get billing_cancellation_url
+    assert_redirected_to billing_path
   end
 
   test "requires authentication for index" do
     sign_out
-    get billing_index_url
+    get billing_url
     assert_redirected_to new_session_path
   end
 
   test "requires authentication for checkout" do
     sign_out
-    post checkout_url
+    post billing_checkout_url
     assert_redirected_to new_session_path
   end
 end

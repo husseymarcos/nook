@@ -81,7 +81,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "collects all tool names from all stacks" do
     user = users(:one)
-    assert_includes user.all_tool_names, "Notion"
-    assert_includes user.all_tool_names, "Figma"
+    assert_includes user.tool_names, "Notion"
+    assert_includes user.tool_names, "Figma"
   end
 end

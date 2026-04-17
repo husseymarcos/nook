@@ -1,10 +1,10 @@
 class ChatsController < ApplicationController
-  before_action :set_chat, only: [ :show, :destroy ]
+  before_action :set_chat, only: %i[ show destroy ]
 
-  DEFAULT_MODEL="gemini-2.5-flash"
+  DEFAULT_MODEL = "gemini-2.5-flash"
 
   def index
-    @chats = Chat.order(created_at: :desc)
+    @chats = Chat.reverse_chronologically
   end
 
   def new
@@ -12,12 +12,13 @@ class ChatsController < ApplicationController
   end
 
   def create
-    prompt = params.dig(:chat, :prompt)
-    if prompt.present?
+    if prompt = params.dig(:chat, :prompt).presence
       @chat = Chat.create!(model: DEFAULT_MODEL)
-      ChatResponseJob.perform_later(@chat.id, prompt)
+      @chat.respond_later(prompt)
 
       redirect_to @chat
+    else
+      redirect_to new_chat_path
     end
   end
 
@@ -31,8 +32,7 @@ class ChatsController < ApplicationController
   end
 
   private
-
-  def set_chat
-    @chat = Chat.find(params[:id])
-  end
+    def set_chat
+      @chat = Chat.find(params[:id])
+    end
 end

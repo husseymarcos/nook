@@ -1,20 +1,43 @@
 class Chat < ApplicationRecord
+  CONTEXT_WINDOW = 10
+  TITLE_LENGTH = 30
+
   acts_as_chat
 
-  def generate_title_from_message(content)
-    return if title.present?
+  scope :reverse_chronologically, -> { order(created_at: :desc) }
 
-    new_title = content.to_s.truncate(30, separator: " ", omission: "")
-    new_title = "New Chat" if new_title.blank?
-    update(title: new_title)
+  def respond_later(prompt)
+    ChatResponseJob.perform_later(id, prompt)
+  end
+
+  def respond_now(prompt)
+    with_instructions(system_prompt)
+    ask(prompt) do |chunk|
+      if chunk.content.present?
+        messages.last.broadcast_append_chunk(chunk.content)
+      end
+    end
+  end
+
+  def generate_title_from_message(content)
+    if title.blank?
+      update(title: title_from(content))
+    end
   end
 
   def build_context
-    messages.order(:created_at).last(10).map do |msg|
-      {
-        role: msg.role,
-        content: msg.content
-      }
+    messages.chronologically.last(CONTEXT_WINDOW).map do |message|
+      { role: message.role, content: message.content }
     end
   end
+
+  private
+    def system_prompt
+      Rails.root.join("config/prompts/system_prompt.md").read
+    end
+
+    def title_from(content)
+      truncated = content.to_s.truncate(TITLE_LENGTH, separator: " ", omission: "")
+      truncated.presence || "New Chat"
+    end
 end

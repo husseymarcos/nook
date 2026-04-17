@@ -1,16 +1,16 @@
 class StacksController < ApplicationController
-  before_action :set_stack, only: [ :show, :destroy ]
+  before_action :set_stack, only: %i[ show destroy ]
 
   def index
-    @stacks = Current.user.stacks.ordered.includes(:tools)
+    @stacks = Current.user.stacks.chronologically.preloaded
     @stack = @stacks.first || Stack.new
-    @default_tools = Tool.default_tools
+    @default_tools = Tool.default
     @custom_tool = Tool.new
   end
 
   def show
     @tools = @stack.tools
-    @default_tools = Tool.default_tools.where.not(id: @stack.tools.pluck(:id))
+    @default_tools = Tool.default.where.not(id: @stack.tools.pluck(:id))
   end
 
   def create
@@ -24,12 +24,11 @@ class StacksController < ApplicationController
   end
 
   def destroy
-    @stack.destroy
+    @stack.destroy!
     redirect_to stacks_path, notice: "Stack deleted"
   end
 
   private
-
     def set_stack
       @stack = Current.user.stacks.find(params[:id])
     end

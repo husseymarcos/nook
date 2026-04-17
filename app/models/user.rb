@@ -1,6 +1,5 @@
 class User < ApplicationRecord
-  include Billable
-  include RateLimitable
+  include Billable, RateLimitable
 
   has_secure_password
   has_many :sessions, dependent: :destroy
@@ -15,15 +14,15 @@ class User < ApplicationRecord
     stacks.first
   end
 
-  def all_tool_names
+  def tool_names
     stacks.flat_map(&:tool_names).uniq
   end
 
-  def has_tool?(tool)
-    stacks.joins(:tools).where(tools: { id: tool.id }).exists?
+  def owns?(tool)
+    tools.exists?(id: tool.id)
   end
 
   def tools
-    Tool.joins(stacks: :user).where(stacks: { user_id: id }).distinct
+    Tool.joins(:stacks).where(stacks: { user_id: id }).distinct
   end
 end

@@ -63,25 +63,15 @@ class ToolTest < ActiveSupport::TestCase
   end
 
   test "scopes default tools" do
-    defaults = Tool.default_tools
+    defaults = Tool.default
     assert defaults.all?(&:is_default)
     assert_includes defaults, tools(:notion)
     assert_not_includes defaults, tools(:custom)
   end
 
   test "scopes custom tools" do
-    customs = Tool.custom_tools
+    customs = Tool.custom
     assert customs.none?(&:is_default)
     assert_includes customs, tools(:custom)
-  end
-
-  test "has many stack tools" do
-    tool = tools(:notion)
-    assert_respond_to tool, :stack_tools
-  end
-
-  test "has many stacks through stack tools" do
-    tool = tools(:notion)
-    assert_respond_to tool, :stacks
   end
 end

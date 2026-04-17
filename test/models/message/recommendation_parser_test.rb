@@ -3,7 +3,7 @@ require "test_helper"
 class Message::RecommendationParserTest < ActiveSupport::TestCase
   test "parses valid recommendation format" do
     content = "1. **Notion** - All-in-one workspace (Web) - Freemium"
-    parser = Message::Recommendations::RecommendationParser.new(content)
+    parser = Message::RecommendationParser.new(content)
 
     result = parser.parse
 
@@ -21,7 +21,7 @@ class Message::RecommendationParserTest < ActiveSupport::TestCase
       3. **Slack** - Team chat (Web) - Paid
     CONTENT
 
-    parser = Message::Recommendations::RecommendationParser.new(content)
+    parser = Message::RecommendationParser.new(content)
     result = parser.parse
 
     assert_equal 3, result.length
@@ -32,24 +32,24 @@ class Message::RecommendationParserTest < ActiveSupport::TestCase
   end
 
   test "returns empty array for blank content" do
-    parser = Message::Recommendations::RecommendationParser.new("")
+    parser = Message::RecommendationParser.new("")
     assert_empty parser.parse
   end
 
   test "returns empty array for nil content" do
-    parser = Message::Recommendations::RecommendationParser.new(nil)
+    parser = Message::RecommendationParser.new(nil)
     assert_empty parser.parse
   end
 
   test "returns empty array for incomplete format" do
     content = "1. **Partial** - Description only"
-    parser = Message::Recommendations::RecommendationParser.new(content)
+    parser = Message::RecommendationParser.new(content)
     assert_empty parser.parse
   end
 
   test "trims whitespace from extracted values" do
     content = "1. **  Notion  ** -  Description  (  Web  ) -  Pricing  "
-    parser = Message::Recommendations::RecommendationParser.new(content)
+    parser = Message::RecommendationParser.new(content)
 
     result = parser.parse
 
