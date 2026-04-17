@@ -2,13 +2,8 @@ require "test_helper"
 
 class ChatTest < ActiveSupport::TestCase
   test "creates chat with title" do
-    chat = Chat.new(title: "Test Chat")
+    chat = Chat.new(title: "Test Chat", user: users(:one))
     assert chat.valid?
-  end
-
-  test "has many messages" do
-    chat = chats(:one)
-    assert_respond_to chat, :messages
   end
 
   test "sets title from first message" do

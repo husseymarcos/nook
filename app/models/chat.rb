@@ -4,6 +4,8 @@ class Chat < ApplicationRecord
 
   acts_as_chat
 
+  belongs_to :user, default: -> { Current.user }
+
   scope :reverse_chronologically, -> { order(created_at: :desc) }
 
   def respond_later(prompt)

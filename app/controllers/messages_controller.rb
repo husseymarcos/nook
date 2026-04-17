@@ -16,6 +16,6 @@ class MessagesController < ApplicationController
 
   private
     def set_chat
-      @chat = Chat.find(params[:chat_id])
+      @chat = Current.user.chats.find(params[:chat_id])
     end
 end

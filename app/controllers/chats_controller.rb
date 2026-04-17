@@ -4,16 +4,16 @@ class ChatsController < ApplicationController
   DEFAULT_MODEL = "gemini-2.5-flash"
 
   def index
-    @chats = Chat.reverse_chronologically
+    @chats = Current.user.chats.reverse_chronologically
   end
 
   def new
-    @chat = Chat.new
+    @chat = Current.user.chats.build
   end
 
   def create
     if prompt = params.dig(:chat, :prompt).presence
-      @chat = Chat.create!(model: DEFAULT_MODEL)
+      @chat = Current.user.chats.create!(model: DEFAULT_MODEL)
       @chat.respond_later(prompt)
 
       redirect_to @chat
@@ -33,6 +33,6 @@ class ChatsController < ApplicationController
 
   private
     def set_chat
-      @chat = Chat.find(params[:id])
+      @chat = Current.user.chats.find(params[:id])
     end
 end
